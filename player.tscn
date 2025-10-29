@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b0l0e1vwpx6jg" path="res://player.gd" id="1_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://r1vrg2soil6y" path="res://Assets/Player/player_shadow.png" id="1_onrkg"]
-[ext_resource type="Texture2D" uid="uid://2c5bv1xyo2yr" path="res://Assets/Player/Male_Spritesheet.png" id="2_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://ck8csrw0wv153" path="res://Assets/Player/Male_Spritesheet.png" id="2_i3pqv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hqtel"]
 atlas = ExtResource("2_i3pqv")
@@ -48,6 +48,11 @@ animations = [{
 }],
 "loop": true,
 "name": &"down",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
 "speed": 5.0
 }, {
 "frames": [{
@@ -114,8 +119,7 @@ offset = Vector2(0, -2)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_urp6f")
-animation = &"side"
-frame_progress = 0.367527
+animation = &"walk down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_bwjto")
