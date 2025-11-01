@@ -1,126 +1,23 @@
-[gd_scene load_steps=16 format=3 uid="uid://dtyoh3fgc2h7t"]
+[gd_scene load_steps=5 format=3 uid="uid://dtyoh3fgc2h7t"]
 
 [ext_resource type="PackedScene" uid="uid://dg3p0m3brfi8j" path="res://player.tscn" id="1_0iamf"]
+[ext_resource type="PackedScene" uid="uid://b14bd631ud0u" path="res://amalgeon.tscn" id="2_04hb4"]
 [ext_resource type="Texture2D" uid="uid://r1vrg2soil6y" path="res://Assets/Player/player_shadow.png" id="2_fgmf3"]
-[ext_resource type="Texture2D" uid="uid://bmwfm10r17y34" path="res://Assets/Amageons/blob.png" id="2_hdtfb"]
-[ext_resource type="Script" uid="uid://0mhdp8yji10c" path="res://amalggeon.gd" id="2_qurb2"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_urp6f"]
-atlas = ExtResource("2_hdtfb")
-region = Rect2(16, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u1c27"]
-atlas = ExtResource("2_hdtfb")
-region = Rect2(0, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pylmc"]
-atlas = ExtResource("2_hdtfb")
-region = Rect2(32, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bwjto"]
-atlas = ExtResource("2_hdtfb")
-region = Rect2(24, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_606se"]
-atlas = ExtResource("2_hdtfb")
-region = Rect2(16, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_op7ga"]
-atlas = ExtResource("2_hdtfb")
-region = Rect2(0, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_q13i1"]
-atlas = ExtResource("2_hdtfb")
-region = Rect2(8, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pbfsw"]
-atlas = ExtResource("2_hdtfb")
-region = Rect2(32, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5tmop"]
-atlas = ExtResource("2_hdtfb")
-region = Rect2(40, 0, 8, 6)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_fgmf3"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_urp6f")
-}],
-"loop": true,
-"name": &"down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u1c27")
-}],
-"loop": true,
-"name": &"side",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pylmc")
-}],
-"loop": true,
-"name": &"up",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bwjto")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_606se")
-}],
-"loop": true,
-"name": &"walk down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_op7ga")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_q13i1")
-}],
-"loop": true,
-"name": &"walk side",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pbfsw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5tmop")
-}],
-"loop": true,
-"name": &"walk up",
-"speed": 5.0
-}]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qurb2"]
-size = Vector2(8, 4)
+[ext_resource type="Script" uid="uid://0mhdp8yji10c" path="res://amalgeon.gd" id="2_qurb2"]
 
 [node name="Island" type="Node2D"]
 y_sort_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_0iamf")]
 
-[node name="Amalgeon" type="CharacterBody2D" parent="." node_paths=PackedStringArray("master")]
+[node name="Amalgeon" parent="." node_paths=PackedStringArray("master") instance=ExtResource("2_04hb4")]
+master = NodePath("../Player")
+
+[node name="Amalgeon2" type="CharacterBody2D" parent="." node_paths=PackedStringArray("master")]
+visible = false
 script = ExtResource("2_qurb2")
 master = NodePath("../Player")
 
-[node name="PlayerShadow" type="Sprite2D" parent="Amalgeon"]
+[node name="PlayerShadow" type="Sprite2D" parent="Amalgeon2"]
 position = Vector2(0, -5)
 texture = ExtResource("2_fgmf3")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Amalgeon"]
-position = Vector2(0, -2)
-sprite_frames = SubResource("SpriteFrames_fgmf3")
-animation = &"walk down"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Amalgeon"]
-shape = SubResource("RectangleShape2D_qurb2")
