@@ -14,23 +14,26 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	pathDirection = wanderDirection(pathDirection)
-	#if( (position-prey.position).length() < 46):
-		#var preyDirection = (position-prey.position).normalized().round()
-		#pathDirection = Direction.NONE
-		#if(preyDirection.x<0): pathDirection = Direction.RIGHT
-		#if(preyDirection.x>0): pathDirection = Direction.LEFT
-		#if(preyDirection.y>0): pathDirection = Direction.UP
-		#if(preyDirection.y<0): pathDirection = Direction.DOWN
-	#if((position-prey.position).length() < 32):
+	if( (position-prey.position).length() < 64):
+		var preyDirection = (position-prey.position).normalized().round()
+		pathDirection = Direction.NONE
+		if(preyDirection.x<0): pathDirection = Direction.RIGHT
+		if(preyDirection.x>0): pathDirection = Direction.LEFT
+		if(preyDirection.y>0): pathDirection = Direction.UP
+		if(preyDirection.y<0): pathDirection = Direction.DOWN
+	if((position-prey.position).length() < 32):
 		#fight
-		#enemy=prey
-		#prey.enemy=self
-		#prep_fighting=true
-		#prey.prep_fighting=true
-		#direction = pathDirection
-		#pathDirection = Direction.NONE
+		prey.enemy=self
+		prep_fighting=true
+		enemy=prey.pet
+		if(!prey.prep_fighting):prey.prep_for_fight()
+		direction = pathDirection
+		pathDirection = Direction.NONE
 	
 	move(pathDirection,delta)
+	animate(animatedSprite2D)
+	if (prep_fighting && enemy.state != CharState.WALKING):
+		direction = get_direction_to_position(enemy.position, position)
 	animate(animatedSprite2D)
 
 func wanderDirection(currentDirection:Direction) -> Direction:

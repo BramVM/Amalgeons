@@ -49,7 +49,6 @@ func move(wanted_direction:Direction, delta: float)-> void:
 		initial_position = position
 		percent_moved_to_next_tile = 0.0
 		state = CharState.IDLE
-		
 	else:
 		if(state==CharState.WALKING):
 			position = initial_position + (TILE_SIZE * moving_vector * percent_moved_to_next_tile)
@@ -70,9 +69,7 @@ func move(wanted_direction:Direction, delta: float)-> void:
 		if (wanted_direction!= Direction.NONE):
 			state = CharState.WALKING
 		else: 
-			moving_vector = Vector2.ZERO
-		
-			
+			moving_vector = Vector2.ZERO	
 		
 func animate(animatedSprite2D:AnimatedSprite2D) -> void:
 	if (direction==Direction.RIGHT||direction==Direction.LEFT):
@@ -92,3 +89,16 @@ func animate(animatedSprite2D:AnimatedSprite2D) -> void:
 		if(state==CharState.WALKING && animatedSprite2D.animation!="walk down"):
 			animatedSprite2D.play("walk down")
 		
+func get_direction_to_position(target:Vector2, origin:Vector2) -> Direction:
+	var wanted_direction_vector = (target - origin).normalized().round()
+	if wanted_direction_vector.y == 0:
+		if (wanted_direction_vector.x > 0):	
+			return Direction.RIGHT
+		if (wanted_direction_vector.x < 0):
+			return Direction.LEFT
+	if wanted_direction_vector.x == 0:
+		if (wanted_direction_vector.y < 0):
+			return Direction.UP
+		if (wanted_direction_vector.y > 0):
+			return Direction.DOWN
+	return Direction.NONE

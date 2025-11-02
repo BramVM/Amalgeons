@@ -4,6 +4,8 @@ class_name Player
 var inputBuffer: Array
 
 var animatedSprite2D = AnimatedSprite2D.new()
+var destination = Vector2.ZERO
+var pet:PetAmalgeon
 
 func _ready() -> void:
 	initial_position = position
@@ -12,14 +14,15 @@ func _ready() -> void:
 	animatedSprite2D.set_offset(Vector2(0,-2))
 
 func _physics_process(delta: float) -> void:
-	var player_input = Direction.NONE
-	if(!prep_fighting): player_input = capture_player_input()
-	move(player_input,delta)
+	var	moving_direction = Direction.NONE
+	if(!prep_fighting): 
+		moving_direction = capture_player_input()
+	else:
+		moving_direction = get_direction_to_position(destination, position)	
+	move(moving_direction, delta)
 	animate(animatedSprite2D)
-	#if(prep_fighting==true):
-		#switch with pet
-		#petPosition = position
-		#wanted_dierection = direction
+	if (prep_fighting && state != CharState.WALKING):
+		direction = get_direction_to_position(petPosition, position)
 
 func capture_player_input() -> Direction:
 	#press button
@@ -43,4 +46,17 @@ func capture_player_input() -> Direction:
 	if(inputBuffer && inputBuffer.back() != null):
 		return inputBuffer.back()
 	else: return Direction.NONE
-			
+
+func prep_for_fight() -> void:
+	#switch with pet
+	prep_fighting=true
+	if(pet): pet.prep_fighting=true
+	if (percent_moved_to_next_tile>0):
+		destination = initial_position
+		petPosition = initial_position + (TILE_SIZE * moving_vector)
+	else:
+		destination = petPosition
+		petPosition = position
+
+func set_pet(p:PetAmalgeon) -> void:
+	pet = p

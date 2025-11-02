@@ -10,10 +10,13 @@ func _ready() -> void:
 	add_child(animatedSprite2D)
 	animatedSprite2D.frames = load("res://amalgeon2_sprite.tres")
 	animatedSprite2D.set_offset(Vector2(0,-6))
+	master.set_pet(self)
 
 func _physics_process(delta: float) -> void:
 	var wanted_dierection = get_wanted_dierection()
-	#if(master.prep_fighting):
+	if(master.prep_fighting):
+		master.enemy.enemy = self
+		enemy=master.enemy
 		#prep_fighting = true
 		#state = CharState.PREP_FIGHTING
 		#enemy = master.enemy
@@ -21,6 +24,8 @@ func _physics_process(delta: float) -> void:
 		#var fightPosition = master.position
 		#wanted_dierection = direction
 	move(wanted_dierection,delta)
+	if (prep_fighting && state != CharState.WALKING):
+		direction = get_direction_to_position(enemy.position, position)
 	animate(animatedSprite2D)
 
 func get_wanted_dierection() -> Direction:
