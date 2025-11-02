@@ -1,104 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://b14bd631ud0u"]
+[gd_scene load_steps=5 format=3 uid="uid://b14bd631ud0u"]
 
-[ext_resource type="Script" uid="uid://0mhdp8yji10c" path="res://amalgeon.gd" id="1_hytyj"]
+[ext_resource type="Script" uid="uid://0mhdp8yji10c" path="res://pet_amalgeon.gd" id="1_hytyj"]
 [ext_resource type="Texture2D" uid="uid://r1vrg2soil6y" path="res://Assets/Player/player_shadow.png" id="2_fcfhf"]
-[ext_resource type="Texture2D" uid="uid://bmwfm10r17y34" path="res://Assets/Amageons/blob.png" id="3_68qb2"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_urp6f"]
-atlas = ExtResource("3_68qb2")
-region = Rect2(16, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g8wrv"]
-atlas = ExtResource("3_68qb2")
-region = Rect2(0, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pylmc"]
-atlas = ExtResource("3_68qb2")
-region = Rect2(32, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bwjto"]
-atlas = ExtResource("3_68qb2")
-region = Rect2(24, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_606se"]
-atlas = ExtResource("3_68qb2")
-region = Rect2(16, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hytyj"]
-atlas = ExtResource("3_68qb2")
-region = Rect2(0, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fcfhf"]
-atlas = ExtResource("3_68qb2")
-region = Rect2(8, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pbfsw"]
-atlas = ExtResource("3_68qb2")
-region = Rect2(32, 0, 8, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5tmop"]
-atlas = ExtResource("3_68qb2")
-region = Rect2(40, 0, 8, 6)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_fgmf3"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_urp6f")
-}],
-"loop": true,
-"name": &"down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g8wrv")
-}],
-"loop": true,
-"name": &"side",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pylmc")
-}],
-"loop": true,
-"name": &"up",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bwjto")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_606se")
-}],
-"loop": true,
-"name": &"walk down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hytyj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fcfhf")
-}],
-"loop": true,
-"name": &"walk side",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pbfsw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5tmop")
-}],
-"loop": true,
-"name": &"walk up",
-"speed": 5.0
-}]
+[ext_resource type="SpriteFrames" uid="uid://c8851it8e2pcu" path="res://amalgeon_sprite.tres" id="3_g8wrv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qurb2"]
 size = Vector2(8, 4)
@@ -112,7 +16,7 @@ texture = ExtResource("2_fcfhf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)
-sprite_frames = SubResource("SpriteFrames_fgmf3")
+sprite_frames = ExtResource("3_g8wrv")
 animation = &"side"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

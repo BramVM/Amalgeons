@@ -12,8 +12,14 @@ func _ready() -> void:
 	animatedSprite2D.set_offset(Vector2(0,-2))
 
 func _physics_process(delta: float) -> void:
-	move(capture_player_input(),delta)
+	var player_input = Direction.NONE
+	if(!prep_fighting): player_input = capture_player_input()
+	move(player_input,delta)
 	animate(animatedSprite2D)
+	#if(prep_fighting==true):
+		#switch with pet
+		#petPosition = position
+		#wanted_dierection = direction
 
 func capture_player_input() -> Direction:
 	#press button

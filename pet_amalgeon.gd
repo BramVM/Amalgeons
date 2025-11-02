@@ -1,5 +1,5 @@
 extends "character.gd"
-class_name Amalgeon
+class_name PetAmalgeon
 
 @export var master: Player
 
@@ -12,12 +12,19 @@ func _ready() -> void:
 	animatedSprite2D.set_offset(Vector2(0,-6))
 
 func _physics_process(delta: float) -> void:
-	move(get_wanted_dierection(),delta)
+	var wanted_dierection = get_wanted_dierection()
+	#if(master.prep_fighting):
+		#prep_fighting = true
+		#state = CharState.PREP_FIGHTING
+		#enemy = master.enemy
+		#enemy.enemy = self
+		#var fightPosition = master.position
+		#wanted_dierection = direction
+	move(wanted_dierection,delta)
 	animate(animatedSprite2D)
 
 func get_wanted_dierection() -> Direction:
 	var wanted_direction_vector = (master.petPosition - position).normalized().round()
-	print(wanted_direction_vector)
 	if wanted_direction_vector.y == 0:
 		if (wanted_direction_vector.x > 0):	
 			return Direction.RIGHT
