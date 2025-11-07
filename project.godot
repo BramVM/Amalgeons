@@ -15,6 +15,11 @@ run/main_scene="uid://dtyoh3fgc2h7t"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+SignalBus="*res://scripts/utils/SignalBus.gd"
+Occupancy="*res://scripts/utils/Occupancy.gd"
+
 [display]
 
 window/size/viewport_width=320
@@ -24,6 +29,10 @@ window/stretch/mode="viewport"
 [dotnet]
 
 project/assembly_name="Amalgeons"
+
+[gui]
+
+theme/custom="uid://b6kqr7ip6msux"
 
 [input]
 

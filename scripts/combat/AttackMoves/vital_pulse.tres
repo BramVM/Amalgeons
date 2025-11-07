@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AttackMove" load_steps=2 format=3 uid="uid://bwymhvvbmqjl8"]
+
+[ext_resource type="Script" uid="uid://caevsodoo3xhu" path="res://scripts/combat/AttackMove.gd" id="1_54382"]
+
+[resource]
+script = ExtResource("1_54382")
+name = "Vital pulse"
+damage = 5
+attack_speed = 1.05
+regen = 2.5
+metadata/_custom_type_script = "uid://caevsodoo3xhu"

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="AttackMove" load_steps=2 format=3 uid="uid://cawntpdlqfib6"]
+
+[ext_resource type="Script" uid="uid://b4dnbyuni6iwh" path="res://scripts/combat/AttackMove.gd" id="1_lpvlj"]
+
+[resource]
+script = ExtResource("1_lpvlj")
+name = "Heavy smash"
+damage = 14
+attack_speed = 1.2

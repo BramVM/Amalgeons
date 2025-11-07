@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://bth1nflqogkbq"]
+
+[ext_resource type="Script" uid="uid://e1sa4t3oohch" path="res://characters/WildAmalgeon.gd" id="1_bvcb5"]
+[ext_resource type="SpriteFrames" uid="uid://c8851it8e2pcu" path="res://amalgeon_sprite.tres" id="2_rovud"]
+[ext_resource type="Script" uid="uid://byxdjli36d2vl" path="res://scripts/components/CombatController.gd" id="3_3uxpy"]
+[ext_resource type="Resource" uid="uid://cawntpdlqfib6" path="res://scripts/combat/AttackMoves/heavy_smash.tres" id="4_ubmpt"]
+[ext_resource type="Script" uid="uid://bs5lmdyosgsl0" path="res://scripts/ai/WildChaseAI.gd" id="4_v3t2u"]
+[ext_resource type="Script" uid="uid://c7qwrge5u0wa7" path="res://scripts/ai/WanderAI.gd" id="5_ubmpt"]
+[ext_resource type="Script" uid="uid://e0ff2focjmhw" path="res://scripts/components/MovementController.gd" id="6_n0x0f"]
+[ext_resource type="Script" uid="uid://dgg7m08ovy8jy" path="res://scripts/components/Health.gd" id="7_mfqki"]
+[ext_resource type="Script" uid="uid://b1jkpddns8ir" path="res://scripts/components/AnimationController.gd" id="8_jsnea"]
+
+[node name="WildAmalgeon" type="CharacterBody2D" node_paths=PackedStringArray("wander_ai", "chase_ai", "move", "combat", "health")]
+y_sort_enabled = true
+script = ExtResource("1_bvcb5")
+wander_ai = NodePath("WanderAI")
+chase_ai = NodePath("WildChaseAI")
+move = NodePath("MovementController")
+combat = NodePath("CombatController")
+health = NodePath("Health")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -2)
+sprite_frames = ExtResource("2_rovud")
+animation = &"walk_side"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -7.0
+offset_top = 4.0
+offset_right = 7.0
+offset_bottom = 5.0
+show_percentage = false
+
+[node name="CombatController" type="Node" parent="."]
+script = ExtResource("3_3uxpy")
+attack_move = ExtResource("4_ubmpt")
+metadata/_custom_type_script = "uid://byxdjli36d2vl"
+
+[node name="WildChaseAI" type="Node" parent="."]
+script = ExtResource("4_v3t2u")
+metadata/_custom_type_script = "uid://bs5lmdyosgsl0"
+
+[node name="WanderAI" type="Node" parent="."]
+script = ExtResource("5_ubmpt")
+metadata/_custom_type_script = "uid://c7qwrge5u0wa7"
+
+[node name="MovementController" type="Node" parent="."]
+script = ExtResource("6_n0x0f")
+metadata/_custom_type_script = "uid://e0ff2focjmhw"
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("7_mfqki")
+metadata/_custom_type_script = "uid://dgg7m08ovy8jy"
+
+[node name="AnimationController" type="Node" parent="."]
+script = ExtResource("8_jsnea")
+sprite_path = NodePath("../AnimatedSprite2D")
+metadata/_custom_type_script = "uid://b1jkpddns8ir"

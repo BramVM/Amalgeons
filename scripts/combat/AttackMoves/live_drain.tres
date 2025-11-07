@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AttackMove" load_steps=2 format=3 uid="uid://cdjhdc0uk73cu"]
+
+[ext_resource type="Script" uid="uid://caevsodoo3xhu" path="res://scripts/combat/AttackMove.gd" id="1_ffveu"]
+
+[resource]
+script = ExtResource("1_ffveu")
+name = "Live drain"
+damage = 8
+attack_speed = 0.95
+lifesteal = 20.0
+metadata/_custom_type_script = "uid://caevsodoo3xhu"

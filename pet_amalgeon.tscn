@@ -1,0 +1,57 @@
+[gd_scene load_steps=10 format=3 uid="uid://d0udim7p6lv0r"]
+
+[ext_resource type="Script" uid="uid://dy56cpjv5aqju" path="res://characters/PetAmalgeon.gd" id="1_yf6ms"]
+[ext_resource type="Texture2D" uid="uid://r1vrg2soil6y" path="res://Assets/Player/player_shadow.png" id="2_jpnuf"]
+[ext_resource type="SpriteFrames" uid="uid://b6uirpw08usbl" path="res://amalgeon2_sprite.tres" id="2_qprdq"]
+[ext_resource type="Script" uid="uid://b1jkpddns8ir" path="res://scripts/components/AnimationController.gd" id="4_lhh1l"]
+[ext_resource type="Script" uid="uid://byxdjli36d2vl" path="res://scripts/components/CombatController.gd" id="5_ahtir"]
+[ext_resource type="Script" uid="uid://e0ff2focjmhw" path="res://scripts/components/MovementController.gd" id="6_a4wmn"]
+[ext_resource type="Resource" uid="uid://cawntpdlqfib6" path="res://scripts/combat/AttackMoves/heavy_smash.tres" id="6_ahtir"]
+[ext_resource type="Script" uid="uid://dgg7m08ovy8jy" path="res://scripts/components/Health.gd" id="7_o1a5y"]
+[ext_resource type="Script" uid="uid://niipwtd1xvfm" path="res://scripts/ai/FollowMasterAI.gd" id="8_lhh1l"]
+
+[node name="PetAmalgeon" type="CharacterBody2D" node_paths=PackedStringArray("follow_ai", "move", "combat", "health")]
+script = ExtResource("1_yf6ms")
+follow_ai = NodePath("FollowMasterAI")
+move = NodePath("MovementController")
+combat = NodePath("CombatController")
+health = NodePath("Health")
+
+[node name="PlayerShadow" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
+texture = ExtResource("2_jpnuf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -6)
+sprite_frames = ExtResource("2_qprdq")
+animation = &"idle_side"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -7.0
+offset_top = 4.0
+offset_right = 7.0
+offset_bottom = 5.0
+value = 100.0
+show_percentage = false
+
+[node name="AnimationController" type="Node" parent="."]
+script = ExtResource("4_lhh1l")
+sprite_path = NodePath("../AnimatedSprite2D")
+metadata/_custom_type_script = "uid://b1jkpddns8ir"
+
+[node name="CombatController" type="Node" parent="."]
+script = ExtResource("5_ahtir")
+attack_move = ExtResource("6_ahtir")
+metadata/_custom_type_script = "uid://byxdjli36d2vl"
+
+[node name="MovementController" type="Node" parent="."]
+script = ExtResource("6_a4wmn")
+metadata/_custom_type_script = "uid://e0ff2focjmhw"
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("7_o1a5y")
+metadata/_custom_type_script = "uid://dgg7m08ovy8jy"
+
+[node name="FollowMasterAI" type="Node" parent="."]
+script = ExtResource("8_lhh1l")
+metadata/_custom_type_script = "uid://niipwtd1xvfm"

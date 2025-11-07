@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AttackMove" load_steps=2 format=3 uid="uid://tiicjkul3jeu"]
+
+[ext_resource type="Script" uid="uid://caevsodoo3xhu" path="res://scripts/combat/AttackMove.gd" id="1_3e5i3"]
+
+[resource]
+script = ExtResource("1_3e5i3")
+name = "Quick jab"
+damage = 6
+attack_speed = 0.5
+metadata/_custom_type_script = "uid://caevsodoo3xhu"

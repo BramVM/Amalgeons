@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b14bd631ud0u"]
 
-[ext_resource type="Script" uid="uid://0mhdp8yji10c" path="res://pet_amalgeon.gd" id="1_hytyj"]
+[ext_resource type="Script" uid="uid://dy56cpjv5aqju" path="res://characters/PetAmalgeon.gd" id="1_hytyj"]
 [ext_resource type="Texture2D" uid="uid://r1vrg2soil6y" path="res://Assets/Player/player_shadow.png" id="2_fcfhf"]
 [ext_resource type="SpriteFrames" uid="uid://c8851it8e2pcu" path="res://amalgeon_sprite.tres" id="3_g8wrv"]
 

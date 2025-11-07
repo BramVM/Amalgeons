@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AttackMove" load_steps=2 format=3 uid="uid://cawntpdlqfib6"]
+
+[ext_resource type="Script" uid="uid://b4dnbyuni6iwh" path="res://scripts/combat/AttackMove.gd" id="1_5m5th"]
+
+[resource]
+script = ExtResource("1_5m5th")
+name = "Blood strike"
+damage = 1
+attack_speed = 10.0
+lifesteal = 14.0
+metadata/_custom_type_script = "uid://caevsodoo3xhu"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AttackMove" load_steps=2 format=3 uid="uid://dkw5mdjf7j0bk"]
+
+[ext_resource type="Script" uid="uid://caevsodoo3xhu" path="res://scripts/combat/AttackMove.gd" id="1_1gvml"]
+
+[resource]
+script = ExtResource("1_1gvml")
+name = "Stone fist"
+damage = 11
+attack_speed = 1.12
+regen = 1.5
+metadata/_custom_type_script = "uid://caevsodoo3xhu"

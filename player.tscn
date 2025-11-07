@@ -1,11 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://dg3p0m3brfi8j"]
+[gd_scene load_steps=9 format=3 uid="uid://dg3p0m3brfi8j"]
 
-[ext_resource type="Script" uid="uid://b0l0e1vwpx6jg" path="res://player.gd" id="1_i3pqv"]
+[ext_resource type="Script" uid="uid://clvfbpdnuag06" path="res://characters/Player.gd" id="1_1jxqw"]
 [ext_resource type="Texture2D" uid="uid://r1vrg2soil6y" path="res://Assets/Player/player_shadow.png" id="1_onrkg"]
 [ext_resource type="Shape2D" uid="uid://bun4wtovx5tns" path="res://char_collosion_shape.tres" id="4_hqtel"]
+[ext_resource type="SpriteFrames" uid="uid://qwioq3efly64" path="res://player_sprite.tres" id="4_sweqy"]
+[ext_resource type="Script" uid="uid://e0ff2focjmhw" path="res://scripts/components/MovementController.gd" id="5_dw050"]
+[ext_resource type="Script" uid="uid://dgg7m08ovy8jy" path="res://scripts/components/Health.gd" id="6_b26j0"]
+[ext_resource type="Script" uid="uid://byxdjli36d2vl" path="res://scripts/components/CombatController.gd" id="7_n7ghd"]
+[ext_resource type="Script" uid="uid://b1jkpddns8ir" path="res://scripts/components/AnimationController.gd" id="8_dw050"]
 
-[node name="player" type="CharacterBody2D"]
-script = ExtResource("1_i3pqv")
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("move", "combat", "health")]
+y_sort_enabled = true
+script = ExtResource("1_1jxqw")
+move = NodePath("MovementController")
+combat = NodePath("CombatController")
+health = NodePath("Health")
 
 [node name="PlayerShadow" type="Sprite2D" parent="."]
 position = Vector2(0, -3)
@@ -14,3 +23,32 @@ offset = Vector2(0, -2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = ExtResource("4_hqtel")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -2)
+sprite_frames = ExtResource("4_sweqy")
+animation = &"idle_down"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -7.0
+offset_top = 4.0
+offset_right = 7.0
+offset_bottom = 5.0
+show_percentage = false
+
+[node name="MovementController" type="Node" parent="."]
+script = ExtResource("5_dw050")
+metadata/_custom_type_script = "uid://e0ff2focjmhw"
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("6_b26j0")
+metadata/_custom_type_script = "uid://dgg7m08ovy8jy"
+
+[node name="CombatController" type="Node" parent="."]
+script = ExtResource("7_n7ghd")
+metadata/_custom_type_script = "uid://byxdjli36d2vl"
+
+[node name="AnimationController" type="Node" parent="."]
+script = ExtResource("8_dw050")
+sprite_path = NodePath("../AnimatedSprite2D")
+metadata/_custom_type_script = "uid://b1jkpddns8ir"
