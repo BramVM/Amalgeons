@@ -6,7 +6,7 @@ class_name Player
 
 func _physics_process(delta: float) -> void:
 	var m := move if move != null else (get_node_or_null("MovementController") as MovementController)
-	if m == null:
+	if m == null || m.blocked:
 		super(delta); return
 
 	var dir := _get_dir_from_ui()  # uses ui_left/right/up/down
