@@ -29,6 +29,8 @@ func _physics_process(_delta: float) -> void:
 	_play_4dir(moving, d)
 
 func _play_4dir(moving: bool, d: int) -> void:
+	#if!moving:
+		# sprint("stopped")
 	var anim_name := ""
 	if moving:
 		match d:

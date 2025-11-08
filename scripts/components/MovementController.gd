@@ -48,11 +48,15 @@ func request_dir(body: CharacterBody2D, dir_vec: Vector2) -> void:
 		_start_step(body, dir_vec)
 
 func _start_step(body: CharacterBody2D, dir_vec: Vector2) -> void:
+	
 	_current_dir = dir_vec
 	_from = body.position
 	_to = _from + dir_vec * tile_size
 	_from_cell = Grid.to_cell(body.global_position, tile_size)
 	_to_cell = _from_cell + Vector2i(dir_vec)
+	if use_occupancy:
+		Occupancy.move(_from_cell, _to_cell)
+	_from_cell = _to_cell
 	_percent = 0.0
 	_moving = true
 	step_started.emit(dir_vec)
@@ -63,13 +67,29 @@ func physics_tick(body: CharacterBody2D, delta: float) -> void:
 	_percent = min(1.0, _percent + walk_speed * delta)
 	body.position = _from.lerp(_to, _percent)
 	if _percent >= 1.0:
-		_moving = false
-		if use_occupancy:
-			Occupancy.move(_from_cell, _to_cell)
-		_from_cell = _to_cell
+		# finalize the current step
 		step_finished.emit()
-		# chain immediately to avoid idle flicker
+
+		# chain immediately if something is queued — do NOT drop _moving to false
 		if _queued_dir != Vector2.ZERO:
 			var next := _queued_dir
 			_queued_dir = Vector2.ZERO
 			_start_step(body, next)
+		else:
+			_moving = false
+		
+	
+	
+	
+	if _percent >= 1.0:
+		if use_occupancy:
+			Occupancy.move(_from_cell, _to_cell)
+		_from_cell = _to_cell
+		step_finished.emit()
+		# chain immediately if something is queued — do NOT drop _moving to false
+		if _queued_dir != Vector2.ZERO:
+			var next := _queued_dir
+			_queued_dir = Vector2.ZERO
+			_start_step(body, next)   # keeps movement continuous; no idle frame
+		else:
+			_moving = false           # only stop if nothing queued

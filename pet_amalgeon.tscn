@@ -54,4 +54,5 @@ metadata/_custom_type_script = "uid://dgg7m08ovy8jy"
 
 [node name="FollowMasterAI" type="Node" parent="."]
 script = ExtResource("8_lhh1l")
+movement_path = NodePath("../MovementController")
 metadata/_custom_type_script = "uid://niipwtd1xvfm"

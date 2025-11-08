@@ -21,7 +21,7 @@ func _ready() -> void:
 	coord.set_player(player)
 	spawn_pet_at(Vector2i(4, 5))    
 	coord.set_pet(pet)     # auto-follows player
-	spawn_wild_at(Vector2i(10, 7))        # auto-chases player
+	#spawn_wild_at(Vector2i(10, 7))        # auto-chases player
 
 func _world_to_cell(pos: Vector2) -> Vector2i:
 	return Vector2i(round(pos.x / tile_size), round(pos.y / tile_size))
