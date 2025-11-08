@@ -37,25 +37,34 @@ func request_engagement(w: WildAmalgeon) -> void:
 
 func _stage(w: WildAmalgeon) -> void:
 	if not pet_node: return
-
+	
+	# Freeze movement on all parties
+	for n in [player_node, pet_node, w]:
+		if n:
+			var m: MovementController = n.get_node_or_null("MovementController") as MovementController
+			if m: m.set_blocked(true, n)
+	
 	# 1) Swap player <-> pet tiles
 	var p_cell := Grid.to_cell(player_node.global_position, tile_size)
 	var pet_cell := Grid.to_cell(pet_node.global_position, tile_size)
+	var wild_cell := Grid.to_cell(w.global_position, tile_size)
 	_teleport_to_cell(player_node, pet_cell)
 	_teleport_to_cell(pet_node, p_cell)
 
-	# 2) Find a free tile adjacent to pet for wild, not player's tile
-	var player_cell := Grid.to_cell(player_node.global_position, tile_size)
-	var candidates := []
-	for nb in Grid.neighbors4(Grid.to_cell(pet_node.global_position, tile_size)):
-		if nb != player_cell and Occupancy.is_free(nb):
-			candidates.append(nb)
-	if candidates.is_empty():
-		for nb2 in Grid.neighbors4(Grid.to_cell(pet_node.global_position, tile_size)):
-			if nb2 != player_cell:
-				candidates.append(nb2)
-				break
-	var wild_cell : Vector2i = candidates[0]
+	# 2) Find a free tile adjacent to pet for wild, not player's tile if not next to it
+	var dist =(p_cell-wild_cell).length()
+	if (dist>1):
+		var player_cell := Grid.to_cell(player_node.global_position, tile_size)
+		var candidates := []
+		for nb in Grid.neighbors4(Grid.to_cell(pet_node.global_position, tile_size)):
+			if nb != player_cell and Occupancy.is_free(nb):
+				candidates.append(nb)
+		if candidates.is_empty():
+			for nb2 in Grid.neighbors4(Grid.to_cell(pet_node.global_position, tile_size)):
+				if nb2 != player_cell:
+					candidates.append(nb2)
+					break
+		wild_cell = candidates[0]
 	_teleport_to_cell(w, wild_cell)
 
 	# 3) Set facings
@@ -66,11 +75,6 @@ func _stage(w: WildAmalgeon) -> void:
 	if w.has_method("set_facing_by_vec"):
 		w.set_facing_by_vec(pet_node.global_position - w.global_position)
 	
-	# Freeze movement on all parties
-	for n in [player_node, pet_node, wild]:
-		if n:
-			var m: MovementController = n.get_node_or_null("MovementController") as MovementController
-			if m: m.set_blocked(true, n)
 
 	# Wire up combat targets (example: player+pet vs wild)
 	if player_node and player_node.combat:

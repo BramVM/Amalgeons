@@ -5,7 +5,7 @@ class_name Character
 @export var combat: CombatController
 @export var health: Health
 
-enum CharState { IDLE, WALKING, FIGHTREADY, FIGHTING }
+enum CharState { IDLE, WALKING, STAGING, FIGHTREADY, FIGHTING }
 var state := CharState.IDLE
 var facing_dir: int = Directions.Dir.DOWN
 

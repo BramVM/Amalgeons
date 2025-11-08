@@ -27,7 +27,8 @@ func physics_tick(body: CharacterBody2D, movement: MovementController, delta: fl
 	var ply_cell: Vector2i = Grid.to_cell(player.global_position, tile_size)
 
 	# If player is too far, do nothing (or let WanderAI handle it, if you wire both)
-	var dist: int = abs(my_cell.x - ply_cell.x) + abs(my_cell.y - ply_cell.y)
+	var dist =(my_cell-ply_cell).length()
+	#var dist: int = abs(my_cell.x - ply_cell.x) + abs(my_cell.y - ply_cell.y)
 	if dist > aggro_range_tiles:
 		chasing = false
 		return
