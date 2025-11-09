@@ -41,14 +41,16 @@ func current_cell() -> Vector2i:
 	
 # Call this EVERY FRAME with your intended direction (Vector2.ZERO if no input).
 func request_dir(body: CharacterBody2D, dir_vec: Vector2) -> void:
+	var destiny_cell = Grid.to_cell(body.global_position+dir_vec*tile_size)
 	if _moving:
-		_queued_dir = dir_vec  # buffer; applied at tile boundary
+		if Occupancy.is_free(destiny_cell):
+			_queued_dir = dir_vec  # buffer; applied at tile boundary
 		return
 	if dir_vec != Vector2.ZERO:
-		_start_step(body, dir_vec)
+		if Occupancy.is_free(destiny_cell):
+			_start_step(body, dir_vec)
 
 func _start_step(body: CharacterBody2D, dir_vec: Vector2) -> void:
-	
 	_current_dir = dir_vec
 	_from = body.position
 	_to = _from + dir_vec * tile_size

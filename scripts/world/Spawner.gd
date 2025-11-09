@@ -2,26 +2,37 @@ extends Node
 class_name Spawner
 
 @export var tile_size: int = 16
-
-# Drag your .tscn scenes in the Inspector:
 @export var PlayerScene: PackedScene
 @export var PetAmalgeonScene: PackedScene
 @export var WildAmalgeonScene: PackedScene
-
-# Optional: set this to your FightCoordinator node in the World
+@export var MonumentScene: PackedScene
 @export var fight_coordinator: NodePath
+
 var coord := get_node_or_null(fight_coordinator)
 
 var player: Player
 var pet: PetAmalgeon
+var wilds: Array
+const NUMBER_OF_SPAWNS:= 4
+const SPAWN_RANGE:= 16*9
 
 func _ready() -> void:
 	coord = get_node_or_null(fight_coordinator)
-	spawn_player_at(Vector2i(1, 1))
+	spawn_player_at(Vector2i(9, 6))
 	coord.set_player(player)
-	spawn_pet_at(Vector2i(4, 5))    
-	coord.set_pet(pet)     # auto-follows player
-	spawn_wild_at(Vector2i(10, 7))        # auto-chases player
+	spawn_pet_at(Vector2i(4, 5),player)    
+	coord.set_pet(pet)
+	var monument=spawn_monument_at(Vector2i(2, 2))
+	monument.set_player(player)
+	monument.set_pet(pet)
+	
+func _process(delta: float) -> void:
+	if wilds.size() < NUMBER_OF_SPAWNS:
+		var spawn_location=Vector2(0,SPAWN_RANGE)
+		var random_radians=randf_range(0, PI*2)
+		spawn_location = spawn_location.rotated(random_radians)+player.global_position
+		spawn_location = Grid.to_cell(spawn_location, 16)
+		wilds.append(spawn_wild_at(spawn_location))
 
 func _world_to_cell(pos: Vector2) -> Vector2i:
 	return Vector2i(round(pos.x / tile_size), round(pos.y / tile_size))
@@ -46,6 +57,13 @@ func spawn_player_at(cell: Vector2i) -> Player:
 	_place_on_grid(inst, cell)
 	_take(cell)
 	player = inst
+	return inst
+
+func spawn_monument_at(cell: Vector2i) -> Monument:
+	var inst := MonumentScene.instantiate() as Monument
+	add_child(inst)
+	_place_on_grid(inst, cell)
+	_take(cell)
 	return inst
 
 func spawn_pet_at(cell: Vector2i, master: Node = null) -> PetAmalgeon:
@@ -87,5 +105,6 @@ func spawn_wild_at(cell: Vector2i) -> WildAmalgeon:
 			var c := _world_to_cell(inst.global_position)
 			Occupancy.release(c)
 			inst.queue_free()
+			wilds.erase(inst)
 	)
 	return inst

@@ -1,0 +1,23 @@
+[gd_scene load_steps=7 format=3 uid="uid://dtyoh3fgc2h7t"]
+
+[ext_resource type="Script" uid="uid://bg1nhoep4ayhv" path="res://scripts/world/Spawner.gd" id="1_pqcow"]
+[ext_resource type="PackedScene" uid="uid://dg3p0m3brfi8j" path="res://scenes/player.tscn" id="2_ftju0"]
+[ext_resource type="PackedScene" uid="uid://d0udim7p6lv0r" path="res://scenes/pet_amalgeon.tscn" id="3_mifw5"]
+[ext_resource type="PackedScene" uid="uid://bth1nflqogkbq" path="res://scenes/wild_amalgeon.tscn" id="4_jxvd6"]
+[ext_resource type="PackedScene" uid="uid://gkq1mhbsklsc" path="res://scenes/monument.tscn" id="5_migvp"]
+[ext_resource type="Script" uid="uid://clv6g0gyjwvch" path="res://scripts/world/FightCoordinator.gd" id="6_perh5"]
+
+[node name="Island" type="Node2D"]
+z_as_relative = false
+y_sort_enabled = true
+
+[node name="Spawner" type="Node" parent="."]
+script = ExtResource("1_pqcow")
+PlayerScene = ExtResource("2_ftju0")
+PetAmalgeonScene = ExtResource("3_mifw5")
+WildAmalgeonScene = ExtResource("4_jxvd6")
+MonumentScene = ExtResource("5_migvp")
+fight_coordinator = NodePath("../FightCoordinator")
+
+[node name="FightCoordinator" type="Node" parent="."]
+script = ExtResource("6_perh5")

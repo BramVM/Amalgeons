@@ -15,7 +15,6 @@ func _ready() -> void:
 	SignalBus.fight_ended.connect(_on_fight_ended)
 
 func _on_fight_ended() -> void:
-	print("end")
 	for n in [player_node, pet_node, wild_node]:
 		if n:
 			var m: MovementController = n.get_node_or_null("MovementController") as MovementController

@@ -3,7 +3,6 @@ class_name Player
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 	
-
 func _physics_process(delta: float) -> void:
 	var m := move if move != null else (get_node_or_null("MovementController") as MovementController)
 	if m == null || m.blocked:

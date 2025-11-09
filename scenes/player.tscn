@@ -17,6 +17,7 @@ combat = NodePath("CombatController")
 health = NodePath("Health")
 
 [node name="PlayerShadow" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(0, -3)
 texture = ExtResource("1_onrkg")
 offset = Vector2(0, -2)
