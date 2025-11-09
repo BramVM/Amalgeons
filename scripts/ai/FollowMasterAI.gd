@@ -12,10 +12,9 @@ var movement:MovementController
 
 func _ready() -> void:
 	movement=get_node_or_null(movement_path)
-# --- Public setup -----------------------------------------------------------
 
-func  _process(delta: float) -> void:
-	if (_master.position-get_parent().position).length()>tile_size*2:
+func physics_tick(body: CharacterBody2D, movement: MovementController, delta: float) -> void:
+	if (_master.position-body.position).length()>tile_size*2:
 		_move_to_target()
 	if movement and movement.is_moving():
 		_move_to_target()

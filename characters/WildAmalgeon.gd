@@ -9,4 +9,4 @@ func _physics_process(delta: float) -> void:
 		chase_ai.physics_tick(self, move, delta)
 	if wander_ai and move and !(chase_ai and chase_ai.chasing):
 		wander_ai.physics_tick(self, move, delta)
-	super(delta)
+	super._physics_process(delta)

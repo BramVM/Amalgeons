@@ -5,13 +5,16 @@ class_name FightCoordinator
 @export var player: NodePath
 @export var pet: NodePath
 @export var wild: NodePath
-var player_node := get_node_or_null(player)
-var pet_node := get_node_or_null(pet)
-var wild_node := get_node_or_null(wild)
+var player_node: Player
+var pet_node: PetAmalgeon
+var wild_node:WildAmalgeon
 
 var _busy := false
 
 func _ready() -> void:
+	if !player_node: player_node = get_node_or_null(player)
+	if !player_node: pet_node = get_node_or_null(pet)
+	if !player_node: wild_node = get_node_or_null(wild)
 	SignalBus.fight_ended.connect(_on_fight_ended)
 
 func _on_fight_ended() -> void:
