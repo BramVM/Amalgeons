@@ -53,3 +53,5 @@ metadata/_custom_type_script = "uid://byxdjli36d2vl"
 script = ExtResource("8_dw050")
 sprite_path = NodePath("../AnimatedSprite2D")
 metadata/_custom_type_script = "uid://b1jkpddns8ir"
+
+[node name="Camera2D" type="Camera2D" parent="."]

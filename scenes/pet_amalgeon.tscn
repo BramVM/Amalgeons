@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d0udim7p6lv0r"]
+[gd_scene load_steps=11 format=3 uid="uid://d0udim7p6lv0r"]
 
 [ext_resource type="Script" uid="uid://dy56cpjv5aqju" path="res://characters/PetAmalgeon.gd" id="1_yf6ms"]
 [ext_resource type="Texture2D" uid="uid://r1vrg2soil6y" path="res://Assets/Player/player_shadow.png" id="2_jpnuf"]
@@ -9,6 +9,8 @@
 [ext_resource type="Resource" uid="uid://cawntpdlqfib6" path="res://scripts/combat/AttackMoves/heavy_smash.tres" id="6_ahtir"]
 [ext_resource type="Script" uid="uid://dgg7m08ovy8jy" path="res://scripts/components/Health.gd" id="7_o1a5y"]
 [ext_resource type="Script" uid="uid://niipwtd1xvfm" path="res://scripts/ai/FollowMasterAI.gd" id="8_lhh1l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u50xw"]
 
 [node name="PetAmalgeon" type="CharacterBody2D" node_paths=PackedStringArray("follow_ai", "move", "combat", "health")]
 script = ExtResource("1_yf6ms")
@@ -23,7 +25,7 @@ position = Vector2(0, -5)
 texture = ExtResource("2_jpnuf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -6)
+position = Vector2(0, -7)
 sprite_frames = ExtResource("2_qprdq")
 animation = &"idle_side"
 
@@ -57,3 +59,6 @@ metadata/_custom_type_script = "uid://dgg7m08ovy8jy"
 script = ExtResource("8_lhh1l")
 movement_path = NodePath("../MovementController")
 metadata/_custom_type_script = "uid://niipwtd1xvfm"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_u50xw")

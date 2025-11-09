@@ -6,13 +6,14 @@ class_name Spawner
 @export var WildAmalgeonScene: PackedScene
 @export var MonumentScene: PackedScene
 @export var fight_coordinator: NodePath
+@onready var y_sort_node:Node2D = $"../YSort"
 
 var coord := get_node_or_null(fight_coordinator)
 
 var player: Player
 var pet: PetAmalgeon
 var wilds: Array
-const NUMBER_OF_SPAWNS:= 4
+const NUMBER_OF_SPAWNS:= 0
 const SPAWN_DISTANCE:= 9
 const DESPAWN_DISTANCE:= 11
 
@@ -57,22 +58,23 @@ func _take(cell: Vector2i) -> void:
 
 func spawn_player_at(cell: Vector2i) -> Player:
 	var inst := PlayerScene.instantiate() as Player
-	add_child(inst)
+	y_sort_node.add_child(inst)
 	_place_on_grid(inst, cell)
 	_take(cell)
 	player = inst
+	print(inst.get_parent())
 	return inst
 
 func spawn_monument_at(cell: Vector2i) -> Monument:
 	var inst := MonumentScene.instantiate() as Monument
-	add_child(inst)
+	y_sort_node.add_child(inst)
 	_place_on_grid(inst, cell)
 	_take(cell)
 	return inst
 
 func spawn_pet_at(cell: Vector2i, master: Node = null) -> PetAmalgeon:
 	var inst := PetAmalgeonScene.instantiate() as PetAmalgeon
-	add_child(inst)
+	y_sort_node.add_child(inst)
 	_place_on_grid(inst, cell)
 	_take(cell)
 
@@ -91,7 +93,7 @@ func spawn_wild_at(cell: Vector2i) -> WildAmalgeon:
 		return null
 
 	var inst := WildAmalgeonScene.instantiate() as WildAmalgeon
-	add_child(inst)
+	y_sort_node.add_child(inst)
 	_place_on_grid(inst, cell)
 	_take(cell)
 
