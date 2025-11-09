@@ -1,5 +1,9 @@
 extends Character
 class_name Player
+
+func _ready() -> void:
+	char_type = GameGlobals.CharType.PLAYER
+	super._ready()
 	
 func _physics_process(delta: float) -> void:
 	var m := move if move != null else (get_node_or_null("MovementController") as MovementController)

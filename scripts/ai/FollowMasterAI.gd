@@ -1,7 +1,6 @@
 extends Node
 class_name FollowMasterAI
 
-@export var tile_size: int = 16
 @export var follow_distance_tiles: int = 1
 @export var movement_path: NodePath
 
@@ -14,7 +13,7 @@ func _ready() -> void:
 	movement=get_node_or_null(movement_path)
 
 func physics_tick(body: CharacterBody2D, movement: MovementController, delta: float) -> void:
-	if (_master.position-body.position).length()>tile_size*2:
+	if (_master.position-body.position).length()>GameGlobals.TILE_SIZE*2:
 		_move_to_target()
 	if movement and movement.is_moving():
 		_move_to_target()
@@ -29,8 +28,8 @@ func set_master(master: Character) -> void:
 func _move_to_target()->void:
 	if not _master or not movement: return
 	var body:= get_parent()
-	var me := Grid.to_cell(body.global_position, tile_size)
-	var m := Grid.to_cell(_master.global_position, tile_size)
+	var me := Grid.to_cell(body.global_position)
+	var m := Grid.to_cell(_master.global_position)
 
 	# Stop if we're already in the desired slot
 	if me == _slot_cell:
@@ -54,14 +53,14 @@ func _on_master_step_started(dir: Vector2) -> void:
 		_last_step_dir = dir
 	if not _master:
 		return
-	var m := Grid.to_cell(_master.global_position, tile_size)
+	var m := Grid.to_cell(_master.global_position)
 	_slot_cell = m
 
 func _on_master_step_finished() -> void:
 	_move_to_target()
 	
 func _seed_slot() -> void:
-	var m := Grid.to_cell(_master.global_position, tile_size)
+	var m := Grid.to_cell(_master.global_position)
 	_slot_cell = m - Vector2i(_last_step_dir) * follow_distance_tiles
 
 func _step_toward(from_cell: Vector2i, to_cell: Vector2i) -> Vector2:

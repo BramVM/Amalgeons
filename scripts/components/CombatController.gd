@@ -3,7 +3,6 @@ class_name CombatController
 
 @export var attack_move: AttackMove
 @export var target: NodePath
-@export var tile_size := 16
 var _cooldown := 0.0
 var target_node := get_node_or_null(target)
 

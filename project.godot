@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 SignalBus="*res://scripts/utils/SignalBus.gd"
 Occupancy="*res://scripts/utils/Occupancy.gd"
+GameGlobals="*res://scripts/utils/GameGlobals.gd"
 
 [display]
 

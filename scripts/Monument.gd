@@ -8,7 +8,7 @@ var heal_speed = 0.2
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
-	var cell = Grid.to_cell(position,16)
+	var cell = Grid.to_cell(position)
 	Occupancy.take(cell)
 
 func _process(delta: float) -> void:

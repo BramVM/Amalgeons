@@ -1,7 +1,6 @@
 extends Node
 class_name MovementController
 
-@export var tile_size: int = 16
 @export var walk_speed: float = 4.0  # tiles/sec
 @export var use_occupancy := true
 
@@ -41,7 +40,7 @@ func current_cell() -> Vector2i:
 	
 # Call this EVERY FRAME with your intended direction (Vector2.ZERO if no input).
 func request_dir(body: CharacterBody2D, dir_vec: Vector2) -> void:
-	var destiny_cell = Grid.to_cell(body.global_position+dir_vec*tile_size)
+	var destiny_cell = Grid.to_cell(body.global_position+dir_vec*GameGlobals.TILE_SIZE)
 	if _moving:
 		if Occupancy.is_free(destiny_cell):
 			_queued_dir = dir_vec  # buffer; applied at tile boundary
@@ -53,8 +52,8 @@ func request_dir(body: CharacterBody2D, dir_vec: Vector2) -> void:
 func _start_step(body: CharacterBody2D, dir_vec: Vector2) -> void:
 	_current_dir = dir_vec
 	_from = body.position
-	_to = _from + dir_vec * tile_size
-	_from_cell = Grid.to_cell(body.global_position, tile_size)
+	_to = _from + dir_vec * GameGlobals.TILE_SIZE
+	_from_cell = Grid.to_cell(body.global_position)
 	_to_cell = _from_cell + Vector2i(dir_vec)
 	if use_occupancy:
 		Occupancy.move(_from_cell, _to_cell)

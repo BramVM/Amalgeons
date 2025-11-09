@@ -1,7 +1,6 @@
 extends Node
 class_name FightCoordinator
 
-@export var tile_size := 16
 @export var player: NodePath
 @export var pet: NodePath
 @export var wild: NodePath
@@ -47,22 +46,22 @@ func _stage(w: WildAmalgeon) -> void:
 			if m: m.set_blocked(true, n)
 	
 	# 1) Swap player <-> pet tiles
-	var p_cell := Grid.to_cell(player_node.global_position, tile_size)
-	var pet_cell := Grid.to_cell(pet_node.global_position, tile_size)
-	var wild_cell := Grid.to_cell(w.global_position, tile_size)
+	var p_cell := Grid.to_cell(player_node.global_position)
+	var pet_cell := Grid.to_cell(pet_node.global_position)
+	var wild_cell := Grid.to_cell(w.global_position)
 	_teleport_to_cell(player_node, pet_cell)
 	_teleport_to_cell(pet_node, p_cell)
 
 	# 2) Find a free tile adjacent to pet for wild, not player's tile if not next to it
 	var dist =(p_cell-wild_cell).length()
 	if (dist>1):
-		var player_cell := Grid.to_cell(player_node.global_position, tile_size)
+		var player_cell := Grid.to_cell(player_node.global_position)
 		var candidates := []
-		for nb in Grid.neighbors4(Grid.to_cell(pet_node.global_position, tile_size)):
+		for nb in Grid.neighbors4(Grid.to_cell(pet_node.global_position)):
 			if nb != player_cell and Occupancy.is_free(nb):
 				candidates.append(nb)
 		if candidates.is_empty():
-			for nb2 in Grid.neighbors4(Grid.to_cell(pet_node.global_position, tile_size)):
+			for nb2 in Grid.neighbors4(Grid.to_cell(pet_node.global_position)):
 				if nb2 != player_cell:
 					candidates.append(nb2)
 					break
@@ -91,8 +90,8 @@ func _stage(w: WildAmalgeon) -> void:
 	SignalBus.fight_started.emit(player_node, w)
 
 func _teleport_to_cell(node: Node2D, cell: Vector2i) -> void:
-	var current := Grid.to_cell(node.global_position, tile_size)
+	var current := Grid.to_cell(node.global_position)
 	if Occupancy.is_free(current) == false:
 		Occupancy.release(current)
-	node.global_position = Grid.to_world(cell, tile_size)
+	node.global_position = Grid.to_world(cell)
 	Occupancy.take(cell)

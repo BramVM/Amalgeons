@@ -1,6 +1,5 @@
 extends Node
 var _taken := {} # Dictionary<Vector2i,bool>
-@export var tile_size := 16
 
 func is_free(cell: Vector2i) -> bool:
 	return not _taken.has(cell)

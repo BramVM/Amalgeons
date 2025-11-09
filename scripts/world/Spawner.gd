@@ -1,7 +1,6 @@
 extends Node
 class_name Spawner
 
-@export var tile_size: int = 16
 @export var PlayerScene: PackedScene
 @export var PetAmalgeonScene: PackedScene
 @export var WildAmalgeonScene: PackedScene
@@ -14,7 +13,8 @@ var player: Player
 var pet: PetAmalgeon
 var wilds: Array
 const NUMBER_OF_SPAWNS:= 4
-const SPAWN_RANGE:= 16*9
+const SPAWN_DISTANCE:= 9
+const DESPAWN_DISTANCE:= 11
 
 func _ready() -> void:
 	coord = get_node_or_null(fight_coordinator)
@@ -25,20 +25,26 @@ func _ready() -> void:
 	var monument=spawn_monument_at(Vector2i(2, 2))
 	monument.set_player(player)
 	monument.set_pet(pet)
+	SignalBus.died.connect(_despawn)
 	
 func _process(delta: float) -> void:
+	#spawn in when not enough
 	if wilds.size() < NUMBER_OF_SPAWNS:
-		var spawn_location=Vector2(0,SPAWN_RANGE)
+		var spawn_location=Vector2(0,SPAWN_DISTANCE*GameGlobals.TILE_SIZE)
 		var random_radians=randf_range(0, PI*2)
 		spawn_location = spawn_location.rotated(random_radians)+player.global_position
-		spawn_location = Grid.to_cell(spawn_location, 16)
+		spawn_location = Grid.to_cell(spawn_location)
 		wilds.append(spawn_wild_at(spawn_location))
-
-func _world_to_cell(pos: Vector2) -> Vector2i:
-	return Vector2i(round(pos.x / tile_size), round(pos.y / tile_size))
+	if player:
+		for w in wilds :
+			if(w):
+				var dist = (Grid.to_cell(player.global_position) - Grid.to_cell(w.global_position)).length()
+				if dist>DESPAWN_DISTANCE:
+					_despawn(w)
+		pass
 
 func _cell_to_world(cell: Vector2i) -> Vector2:
-	return Vector2(cell.x * tile_size, cell.y * tile_size)
+	return Vector2(cell.x * GameGlobals.TILE_SIZE, cell.y * GameGlobals.TILE_SIZE)
 
 func _place_on_grid(node: Node2D, cell: Vector2i) -> void:
 	node.global_position = _cell_to_world(cell)
@@ -48,8 +54,6 @@ func _take(cell: Vector2i) -> void:
 		Occupancy.take(cell)
 	else:
 		push_warning("Tile %s is occupied" % [cell])
-
-# ----------------- Public API -----------------
 
 func spawn_player_at(cell: Vector2i) -> Player:
 	var inst := PlayerScene.instantiate() as Player
@@ -99,12 +103,11 @@ func spawn_wild_at(cell: Vector2i) -> WildAmalgeon:
 		if coord:
 			chase.set_fight_coordinator(coord)
 
-	# Cleanup occupancy on death
-	SignalBus.died.connect(func(who, _amt := 0.0):
-		if who == inst:
-			var c := _world_to_cell(inst.global_position)
-			Occupancy.release(c)
-			inst.queue_free()
-			wilds.erase(inst)
-	)
 	return inst
+
+func _despawn(c:Character):
+	if c.char_type==GameGlobals.CharType.WILD :
+		var p = Grid.to_cell(c.global_position)
+		Occupancy.release(p)
+		wilds.erase(c)
+		c.queue_free()

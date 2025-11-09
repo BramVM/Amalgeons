@@ -2,7 +2,6 @@ extends Node
 class_name WildChaseAI
 
 @export var aggro_range_tiles := 5
-@export var tile_size := 16
 @export var target_player: NodePath
 @export var fight_coordinator: NodePath
 @export var start_fight_when_adjacent := true
@@ -23,8 +22,8 @@ func physics_tick(body: CharacterBody2D, movement: MovementController, delta: fl
 		return
 
 	# Work in cells so we’re tile-accurate
-	var my_cell: Vector2i = Grid.to_cell(body.global_position, tile_size)
-	var ply_cell: Vector2i = Grid.to_cell(player.global_position, tile_size)
+	var my_cell: Vector2i = Grid.to_cell(body.global_position)
+	var ply_cell: Vector2i = Grid.to_cell(player.global_position)
 
 	# If player is too far, do nothing (or let WanderAI handle it, if you wire both)
 	var dist =(my_cell-ply_cell).length()

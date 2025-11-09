@@ -4,9 +4,9 @@ class_name Character
 @export var move: MovementController
 @export var combat: CombatController
 @export var health: Health
+var char_type: GameGlobals.CharType
 
-enum CharState { IDLE, WALKING, STAGING, FIGHTREADY, FIGHTING }
-var state := CharState.IDLE
+var state := GameGlobals.CharState.IDLE
 var facing_dir: int = Directions.Dir.DOWN
 
 func _ready() -> void:
