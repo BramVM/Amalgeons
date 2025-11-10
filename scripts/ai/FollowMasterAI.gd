@@ -29,24 +29,16 @@ func _move_to_target()->void:
 	if not _master or not movement: return
 	var body:= get_parent()
 	var me := Grid.to_cell(body.global_position)
-	var m := Grid.to_cell(_master.global_position)
 
 	# Stop if we're already in the desired slot
 	if me == _slot_cell:
 		movement.request_dir(body, Vector2.ZERO)
 		return
 
-	# Pick simple cardinal step toward target slot
-	var step := _step_toward(me, _slot_cell)
-	var next := me + Vector2i(step)
-
-	# Always enforce occupancy
-	#
-	if not Occupancy.is_free(next):
-		movement.request_dir(body, Vector2.ZERO)
-		return
-
-	movement.request_dir(body, step)
+	var next = Pathfinder.next_step_a_star(me,_slot_cell,Occupancy.is_free,50)
+	if next != null:
+		var delta = next - me
+		movement.request_dir(body,delta)
 	
 func _on_master_step_started(dir: Vector2) -> void:
 	if dir != Vector2.ZERO:

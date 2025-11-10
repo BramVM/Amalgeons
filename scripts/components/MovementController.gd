@@ -10,8 +10,8 @@ signal step_finished()
 var _percent: float = 0.0
 var _from: Vector2 = Vector2.ZERO
 var _to: Vector2 = Vector2.ZERO
-var _from_cell: Vector2i
-var _to_cell: Vector2i
+var from_cell: Vector2i
+var to_cell: Vector2i
 var _moving: bool = false
 var blocked: bool = false
 var _queued_dir: Vector2 = Vector2.ZERO     # buffered intention (from input/AI)
@@ -26,8 +26,8 @@ func set_blocked(v: bool, body: CharacterBody2D) -> void:
 			_percent = 1.0
 			body.position = _to
 			if use_occupancy:
-				Occupancy.move(_from_cell, _to_cell)
-			_from_cell = _to_cell
+				Occupancy.move(from_cell, to_cell)
+			from_cell = to_cell
 			step_finished.emit()
 		_queued_dir = Vector2.ZERO
 
@@ -36,7 +36,7 @@ func is_moving() -> bool:
 
 func current_cell() -> Vector2i:
 	# while moving, the logical cell is the destination
-	return _to_cell if _moving else _from_cell
+	return to_cell if _moving else from_cell
 	
 # Call this EVERY FRAME with your intended direction (Vector2.ZERO if no input).
 func request_dir(body: CharacterBody2D, dir_vec: Vector2) -> void:
@@ -53,11 +53,11 @@ func _start_step(body: CharacterBody2D, dir_vec: Vector2) -> void:
 	_current_dir = dir_vec
 	_from = body.position
 	_to = _from + dir_vec * GameGlobals.TILE_SIZE
-	_from_cell = Grid.to_cell(body.global_position)
-	_to_cell = _from_cell + Vector2i(dir_vec)
+	from_cell = Grid.to_cell(body.global_position)
+	to_cell = from_cell + Vector2i(dir_vec)
 	if use_occupancy:
-		Occupancy.move(_from_cell, _to_cell)
-	_from_cell = _to_cell
+		Occupancy.move(from_cell, to_cell)
+	from_cell = to_cell
 	_percent = 0.0
 	_moving = true
 	step_started.emit(dir_vec)
@@ -84,8 +84,8 @@ func physics_tick(body: CharacterBody2D, delta: float) -> void:
 	
 	if _percent >= 1.0:
 		if use_occupancy:
-			Occupancy.move(_from_cell, _to_cell)
-		_from_cell = _to_cell
+			Occupancy.move(from_cell, to_cell)
+		from_cell = to_cell
 		step_finished.emit()
 		# chain immediately if something is queued — do NOT drop _moving to false
 		if _queued_dir != Vector2.ZERO:

@@ -12,6 +12,7 @@ var facing_dir: int = Directions.Dir.DOWN
 func _ready() -> void:
 	if move:
 		move.step_started.connect(_on_step_started)
+		if char_type == GameGlobals.CharType.WILD: move.walk_speed = 6
 	# mark occupancy if you use it:
 	# Occupancy.take(Grid.to_cell(global_position, 16))
 

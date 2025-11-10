@@ -20,14 +20,13 @@ func physics_tick(body: CharacterBody2D, movement: MovementController, delta: fl
 	if player == null or movement == null:
 		chasing = false
 		return
-
+	var player_movement := player.get_node_or_null("MovementController")
+	
 	# Work in cells so we’re tile-accurate
-	var my_cell: Vector2i = Grid.to_cell(body.global_position)
-	var ply_cell: Vector2i = Grid.to_cell(player.global_position)
+	var my_cell:Vector2i= movement.to_cell
+	var ply_cell:Vector2i= player_movement.to_cell
 
-	# If player is too far, do nothing (or let WanderAI handle it, if you wire both)
-	var dist =(my_cell-ply_cell).length()
-	#var dist: int = abs(my_cell.x - ply_cell.x) + abs(my_cell.y - ply_cell.y)
+	var dist = (my_cell-ply_cell).length()
 	if dist > aggro_range_tiles:
 		chasing = false
 		return
@@ -37,8 +36,10 @@ func physics_tick(body: CharacterBody2D, movement: MovementController, delta: fl
 		# Make sure we are not still trying to move
 		movement.request_dir(body, Vector2.ZERO)
 		chasing = false
-		if start_fight_when_adjacent and coord:
+		if start_fight_when_adjacent and coord and body.state != GameGlobals.CharState.FIGHTING and body.state != GameGlobals.CharState.STAGING :
 			coord.request_engagement(body)
+			print("engage")
+			print(body)
 		return
 
 	# We need to move closer, but NEVER step into the player's cell.
@@ -57,7 +58,12 @@ func physics_tick(body: CharacterBody2D, movement: MovementController, delta: fl
 		if blocked:
 			step = Vector2.ZERO
 	chasing = true
-	movement.request_dir(body, step)
+	#movement.request_dir(body, step)
+
+	var next = Pathfinder.next_step_a_star(my_cell,ply_cell,Occupancy.is_free,50)
+	if next != null:
+		var deltadir = next - my_cell
+		movement.request_dir(body,deltadir)
 
 func _choose_step_toward(from_cell: Vector2i, to_cell: Vector2i) -> Vector2i:
 	var dx := to_cell.x - from_cell.x

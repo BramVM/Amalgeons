@@ -19,7 +19,7 @@ func apply_damage(amount: float) -> void:
 	SignalBus.damaged.emit(get_parent(), mitigated)
 	if hp <= 0.0:
 		SignalBus.died.emit(get_parent())
-		SignalBus.fight_ended.emit()
+		
 
 func heal(amount: float) -> void:
 	hp = min(hp + amount, max_hp)

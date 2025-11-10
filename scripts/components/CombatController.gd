@@ -11,22 +11,16 @@ func set_target(t:Character) -> void:
 
 func physics_tick(delta: float) -> void:
 	# Passive regen for the user if they have Health
-	
-	if not attack_move: return
-
-	if _cooldown > 0.0:
-		_cooldown -= delta
-		return
-	
-	#var my_health: Health = get_parent().get_node_or_null("Health") as Health
-	#if my_health and attack_move.regen != 0.0:
-		#my_health.hp = clamp(my_health.hp + attack_move.regen * delta, 0.0, my_health.max_hp)
-
-
-	if not target_node: return
-
-
-	_perform_attack(target_node)
+	if(get_parent().state==GameGlobals.CharState.FIGHTING):
+		if not attack_move: return
+		if _cooldown > 0.0:
+			_cooldown -= delta
+			return
+		#var my_health: Health = get_parent().get_node_or_null("Health") as Health
+		#if my_health and attack_move.regen != 0.0:
+			#my_health.hp = clamp(my_health.hp + attack_move.regen * delta, 0.0, my_health.max_hp)
+		if not target_node: return
+		_perform_attack(target_node)
 
 func _perform_attack(tgt: Character) -> void:
 	var dmg: float = float(attack_move.damage)

@@ -13,19 +13,23 @@ var coord := get_node_or_null(fight_coordinator)
 var player: Player
 var pet: PetAmalgeon
 var wilds: Array
-const NUMBER_OF_SPAWNS:= 0
-const SPAWN_DISTANCE:= 9
-const DESPAWN_DISTANCE:= 11
+const NUMBER_OF_SPAWNS:= 4
+const SPAWN_DISTANCE:= 10
+const DESPAWN_DISTANCE:= 20
 
 func _ready() -> void:
 	coord = get_node_or_null(fight_coordinator)
-	spawn_player_at(Vector2i(9, 6))
+	spawn_player_at(Vector2i(5, 0))
 	coord.set_player(player)
-	spawn_pet_at(Vector2i(4, 5),player)    
+	spawn_pet_at(Vector2i(0, 0),player)    
 	coord.set_pet(pet)
-	var monument=spawn_monument_at(Vector2i(2, 2))
+	var monument=spawn_monument_at(Vector2i(2, 0))
 	monument.set_player(player)
 	monument.set_pet(pet)
+	spawn_monument_at(Vector2i(2, -1))
+	spawn_monument_at(Vector2i(2, -2))
+	spawn_monument_at(Vector2i(3, 1))
+	spawn_monument_at(Vector2i(3, -3))
 	SignalBus.died.connect(_despawn)
 	
 func _process(delta: float) -> void:
@@ -62,7 +66,6 @@ func spawn_player_at(cell: Vector2i) -> Player:
 	_place_on_grid(inst, cell)
 	_take(cell)
 	player = inst
-	print(inst.get_parent())
 	return inst
 
 func spawn_monument_at(cell: Vector2i) -> Monument:
@@ -113,3 +116,5 @@ func _despawn(c:Character):
 		Occupancy.release(p)
 		wilds.erase(c)
 		c.queue_free()
+		print("gone")
+		SignalBus.fight_ended.emit()

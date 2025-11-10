@@ -7,7 +7,7 @@ func _ready() -> void:
 	
 func _physics_process(delta: float) -> void:
 	var m := move if move != null else (get_node_or_null("MovementController") as MovementController)
-	if m == null || m.blocked:
+	if m == null || state == GameGlobals.CharState.FIGHTING || state == GameGlobals.CharState.STAGING:
 		super._physics_process(delta); return
 
 	var dir := _get_dir_from_ui()  # uses ui_left/right/up/down
