@@ -36,7 +36,6 @@ func physics_tick(body: CharacterBody2D, movement: MovementController, delta: fl
 		# Make sure we are not still trying to move
 		movement.request_dir(body, Vector2.ZERO)
 		chasing = false
-		print(body.char_state)
 		if start_fight_when_adjacent and coord and body.char_state != GameGlobals.CharState.FIGHTING and body.char_state != GameGlobals.CharState.STAGING :
 			coord.request_engagement(body)
 		return

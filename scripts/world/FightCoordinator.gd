@@ -53,7 +53,7 @@ func _initiate_staging(w: WildAmalgeon)->void:
 			var m: MovementController = n.get_node_or_null("MovementController") as MovementController
 			n.char_state = GameGlobals.CharState.STAGING
 			if m: m.set_blocked(true, n)
-	
+	#player_node.get_node("Camera2D").zoom_over_time(2,0.5)
 	pet_staging_destination=player_node.move.to_cell
 	player_staging_destination=player_node.move.to_cell- (player_node.move.current_dir as Vector2i)
 

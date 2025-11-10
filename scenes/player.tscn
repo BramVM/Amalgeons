@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dg3p0m3brfi8j"]
+[gd_scene load_steps=10 format=3 uid="uid://dg3p0m3brfi8j"]
 
 [ext_resource type="Script" uid="uid://clvfbpdnuag06" path="res://characters/Player.gd" id="1_1jxqw"]
 [ext_resource type="Texture2D" uid="uid://r1vrg2soil6y" path="res://Assets/Player/player_shadow.png" id="1_onrkg"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://dgg7m08ovy8jy" path="res://scripts/components/Health.gd" id="6_b26j0"]
 [ext_resource type="Script" uid="uid://byxdjli36d2vl" path="res://scripts/components/CombatController.gd" id="7_n7ghd"]
 [ext_resource type="Script" uid="uid://b1jkpddns8ir" path="res://scripts/components/AnimationController.gd" id="8_dw050"]
+[ext_resource type="Script" uid="uid://dpdi3piygs50k" path="res://scenes/camera.gd" id="9_ur7pv"]
 
 [node name="player" type="CharacterBody2D" node_paths=PackedStringArray("move", "combat", "health")]
 y_sort_enabled = true
@@ -55,3 +56,4 @@ sprite_path = NodePath("../AnimatedSprite2D")
 metadata/_custom_type_script = "uid://b1jkpddns8ir"
 
 [node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("9_ur7pv")
