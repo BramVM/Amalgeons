@@ -13,7 +13,7 @@ var coord := get_node_or_null(fight_coordinator)
 var player: Player
 var pet: PetAmalgeon
 var wilds: Array
-const NUMBER_OF_SPAWNS:= 4
+const NUMBER_OF_SPAWNS:= 1
 const SPAWN_DISTANCE:= 10
 const DESPAWN_DISTANCE:= 20
 
@@ -114,7 +114,9 @@ func _despawn(c:Character):
 	if c.char_type==GameGlobals.CharType.WILD :
 		var p = Grid.to_cell(c.global_position)
 		Occupancy.release(p)
+		c.is_queued_for_delete=true
 		wilds.erase(c)
 		c.queue_free()
+		#c.free()
 		print("gone")
 		SignalBus.fight_ended.emit()

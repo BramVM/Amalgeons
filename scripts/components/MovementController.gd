@@ -15,7 +15,7 @@ var to_cell: Vector2i
 var _moving: bool = false
 var blocked: bool = false
 var _queued_dir: Vector2 = Vector2.ZERO     # buffered intention (from input/AI)
-var _current_dir: Vector2 = Vector2.ZERO    # direction of the active step
+var current_dir: Vector2 = Vector2.ZERO    # direction of the active step
 
 func set_blocked(v: bool, body: CharacterBody2D) -> void:
 	blocked = v
@@ -50,7 +50,7 @@ func request_dir(body: CharacterBody2D, dir_vec: Vector2) -> void:
 			_start_step(body, dir_vec)
 
 func _start_step(body: CharacterBody2D, dir_vec: Vector2) -> void:
-	_current_dir = dir_vec
+	current_dir = dir_vec
 	_from = body.position
 	_to = _from + dir_vec * GameGlobals.TILE_SIZE
 	from_cell = Grid.to_cell(body.global_position)

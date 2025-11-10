@@ -1,21 +1,21 @@
 [gd_scene load_steps=6 format=3 uid="uid://gkq1mhbsklsc"]
 
 [ext_resource type="Script" uid="uid://cisdpb7aolsp4" path="res://scripts/Monument.gd" id="1_rpsm2"]
-[ext_resource type="Texture2D" uid="uid://f3yb06hya44n" path="res://Assets/monument.png" id="2_7h74m"]
+[ext_resource type="Texture2D" uid="uid://cta1ldo2wol6a" path="res://Assets/monument_v2.png" id="2_51hww"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b4opu"]
-atlas = ExtResource("2_7h74m")
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwq0p"]
+atlas = ExtResource("2_51hww")
 region = Rect2(16, 0, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5jwi3"]
-atlas = ExtResource("2_7h74m")
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3axa"]
+atlas = ExtResource("2_51hww")
 region = Rect2(0, 0, 16, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1y0xo"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_b4opu")
+"texture": SubResource("AtlasTexture_uwq0p")
 }],
 "loop": true,
 "name": &"active",
@@ -23,7 +23,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5jwi3")
+"texture": SubResource("AtlasTexture_t3axa")
 }],
 "loop": true,
 "name": &"idle",
@@ -36,4 +36,4 @@ script = ExtResource("1_rpsm2")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -11)
 sprite_frames = SubResource("SpriteFrames_1y0xo")
-animation = &"idle"
+animation = &"active"

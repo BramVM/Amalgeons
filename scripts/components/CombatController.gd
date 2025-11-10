@@ -11,7 +11,7 @@ func set_target(t:Character) -> void:
 
 func physics_tick(delta: float) -> void:
 	# Passive regen for the user if they have Health
-	if(get_parent().state==GameGlobals.CharState.FIGHTING):
+	if(get_parent().char_state==GameGlobals.CharState.FIGHTING):
 		if not attack_move: return
 		if _cooldown > 0.0:
 			_cooldown -= delta

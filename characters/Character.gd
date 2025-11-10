@@ -6,7 +6,9 @@ class_name Character
 @export var health: Health
 var char_type: GameGlobals.CharType
 
-var state := GameGlobals.CharState.IDLE
+var char_state := GameGlobals.CharState.IDLE
+var walking:= false
+var is_queued_for_delete:= false
 var facing_dir: int = Directions.Dir.DOWN
 
 func _ready() -> void:

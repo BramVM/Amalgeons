@@ -17,7 +17,7 @@ func set_fight_coordinator(f: FightCoordinator) -> void:
 	coord = f
 
 func physics_tick(body: CharacterBody2D, movement: MovementController, delta: float) -> void:
-	if player == null or movement == null:
+	if player == null or movement == null or body.is_queued_for_delete:
 		chasing = false
 		return
 	var player_movement := player.get_node_or_null("MovementController")
@@ -36,10 +36,9 @@ func physics_tick(body: CharacterBody2D, movement: MovementController, delta: fl
 		# Make sure we are not still trying to move
 		movement.request_dir(body, Vector2.ZERO)
 		chasing = false
-		if start_fight_when_adjacent and coord and body.state != GameGlobals.CharState.FIGHTING and body.state != GameGlobals.CharState.STAGING :
+		print(body.char_state)
+		if start_fight_when_adjacent and coord and body.char_state != GameGlobals.CharState.FIGHTING and body.char_state != GameGlobals.CharState.STAGING :
 			coord.request_engagement(body)
-			print("engage")
-			print(body)
 		return
 
 	# We need to move closer, but NEVER step into the player's cell.
