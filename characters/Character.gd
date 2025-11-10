@@ -5,7 +5,7 @@ class_name Character
 @export var combat: CombatController
 @export var health: Health
 var char_type: GameGlobals.CharType
-
+var stats:= Stats.new()
 var char_state := GameGlobals.CharState.IDLE
 var walking:= false
 var is_queued_for_delete:= false

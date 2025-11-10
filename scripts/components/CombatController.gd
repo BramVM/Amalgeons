@@ -23,11 +23,11 @@ func physics_tick(delta: float) -> void:
 		_perform_attack(target_node)
 
 func _perform_attack(tgt: Character) -> void:
-	var dmg: float = float(attack_move.damage)
+	var dmg = attack_move.damage*get_parent().stats.attack_power()
 	var th: Health = tgt.get_node_or_null("Health") as Health
 	if th:
-		var pre_hp: float = th.hp
-		th.apply_damage(dmg)
+		var pre_hp = th.hp
+		th.apply_damage(max(dmg-tgt.stats.armor(),1))
 		var dealt: float = pre_hp - th.hp
 
 		# Lifesteal
@@ -35,5 +35,4 @@ func _perform_attack(tgt: Character) -> void:
 			var my_health: Health = get_parent().get_node_or_null("Health") as Health
 			if my_health:
 				my_health.hp = clamp(my_health.hp + dealt * attack_move.lifesteal, 0.0, my_health.max_hp)
-
-	_cooldown = attack_move.cooldown()
+	_cooldown = attack_move.cooldown()/get_parent().stats.attack_speed()

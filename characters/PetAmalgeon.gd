@@ -5,6 +5,9 @@ class_name PetAmalgeon
 
 func _ready() -> void:
 	char_type = GameGlobals.CharType.PET
+	stats.hit_points=25
+	stats.speed=25
+	stats.damage=25
 	super._ready()
 
 func _physics_process(delta: float) -> void:

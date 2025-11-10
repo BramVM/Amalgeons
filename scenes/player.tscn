@@ -32,6 +32,7 @@ sprite_frames = ExtResource("4_sweqy")
 animation = &"idle_down"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
+visible = false
 offset_left = -7.0
 offset_top = 4.0
 offset_right = 7.0

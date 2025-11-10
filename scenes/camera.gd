@@ -8,7 +8,7 @@ func _ready() -> void:
 	SignalBus.fight_started.connect(_on_fight_start)
 	SignalBus.fight_ended.connect(_on_fight_end)
 	
-func _on_fight_start() -> void:
+func _on_fight_start(a: Node, b: Node) -> void:
 	print("zoom")
 	_zoom_over_time(2,0.5)
 
@@ -22,7 +22,7 @@ func _process(delta: float) -> void:
 func _zoom_over_time(z:float, sec:float)->void:
 	target_zoom=z
 	var current_zoom=(zoom.x)
-	var inc_per_sec = (target_zoom-current_zoom)/2
+	var inc_per_sec = (target_zoom-current_zoom)/sec
 	zoom_per_sec=Vector2(inc_per_sec,inc_per_sec)
 	animation_counter=sec
 

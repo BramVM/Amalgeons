@@ -7,11 +7,27 @@ class_name Health
 var healthBar_node:ProgressBar
 var hp = max_hp
 
+func set_max_health(h:float):
+	max_hp = h
+	if healthBar_node: healthBar_node.max_value=max_hp
+	
+
+func _on_fight_start(a:Node, b:Node):
+	if healthBar_node: healthBar_node.visible=true
+
+func _on_fight_end():
+	if healthBar_node: healthBar_node.visible=false
+
 func _ready() -> void:
-	healthBar_node=get_parent().get_node_or_null(healthBar)
+	healthBar_node= get_parent().get_node_or_null(healthBar)
 	if healthBar_node: healthBar_node.max_value=max_hp
 	if healthBar_node: healthBar_node.value=hp
-
+	SignalBus.fight_started.connect(_on_fight_start)
+	SignalBus.fight_ended.connect(_on_fight_end)
+	
+func _process(delta: float) -> void:
+	set_max_health(get_parent().stats.max_hit_points())
+	
 func apply_damage(amount: float) -> void:
 	var mitigated:float = max(0.0, amount - armor)
 	hp = clamp(hp - mitigated, 0.0, max_hp)

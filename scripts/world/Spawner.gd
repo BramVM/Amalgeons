@@ -23,13 +23,9 @@ func _ready() -> void:
 	coord.set_player(player)
 	spawn_pet_at(Vector2i(0, 0),player)    
 	coord.set_pet(pet)
-	var monument=spawn_monument_at(Vector2i(2, 0))
+	var monument=spawn_monument_at(Vector2i(4, 3))
 	monument.set_player(player)
 	monument.set_pet(pet)
-	spawn_monument_at(Vector2i(2, -1))
-	spawn_monument_at(Vector2i(2, -2))
-	spawn_monument_at(Vector2i(3, 1))
-	spawn_monument_at(Vector2i(3, -3))
 	SignalBus.died.connect(_despawn)
 	
 func _process(delta: float) -> void:
