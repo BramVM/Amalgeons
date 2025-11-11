@@ -41,7 +41,6 @@ func max_hit_points()->float:
 	return 100*(1+_effective_points(hit_points, MAX_POINTS_PER_STAT, DEMINISHING_RETURN_TIERS)*0.1)
 	
 func armor()->int:
-	print(roundi(_effective_points(hit_points, MAX_POINTS_PER_STAT, DEMINISHING_RETURN_TIERS)/ARMOR_MOD))
 	return roundi(_effective_points(hit_points, MAX_POINTS_PER_STAT, DEMINISHING_RETURN_TIERS)/ARMOR_MOD)
 
 func unspent_stat_points()->int:

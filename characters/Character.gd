@@ -13,13 +13,12 @@ var facing_dir: int = Directions.Dir.DOWN
 
 func _ready() -> void:
 	if move:
-		move.step_started.connect(_on_step_started)
+		move.step_started.connect(set_facing_by_vec)
+		move.blocked_by_collision.connect(set_facing_by_vec)
 		if char_type == GameGlobals.CharType.WILD: move.walk_speed = 6
 	# mark occupancy if you use it:
 	# Occupancy.take(Grid.to_cell(global_position, 16))
 
-func _on_step_started(dir: Vector2) -> void:
-	set_facing_by_vec(dir)
 
 func set_facing_by_vec(v: Vector2) -> void:
 	if v == Vector2.ZERO: return

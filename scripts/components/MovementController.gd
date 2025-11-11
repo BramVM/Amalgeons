@@ -5,6 +5,7 @@ class_name MovementController
 @export var use_occupancy := true
 
 signal step_started(dir: Vector2)
+signal blocked_by_collision(dir: Vector2)
 signal step_finished()
 
 var _percent: float = 0.0
@@ -48,6 +49,8 @@ func request_dir(body: CharacterBody2D, dir_vec: Vector2) -> void:
 	if dir_vec != Vector2.ZERO:
 		if Occupancy.is_free(destiny_cell):
 			_start_step(body, dir_vec)
+		else:
+			blocked_by_collision.emit(dir_vec)
 
 func _start_step(body: CharacterBody2D, dir_vec: Vector2) -> void:
 	current_dir = dir_vec
@@ -75,13 +78,14 @@ func physics_tick(body: CharacterBody2D, delta: float) -> void:
 		# chain immediately if something is queued — do NOT drop _moving to false
 		if _queued_dir != Vector2.ZERO:
 			var next := _queued_dir
+			var destiny_cell = Grid.to_cell(body.global_position+next*GameGlobals.TILE_SIZE)
 			_queued_dir = Vector2.ZERO
-			_start_step(body, next)
+			if Occupancy.is_free(destiny_cell):
+				_start_step(body, next)
+			else:
+				blocked_by_collision.emit(next)			
 		else:
 			_moving = false
-		
-	
-	
 	
 	if _percent >= 1.0:
 		if use_occupancy:
