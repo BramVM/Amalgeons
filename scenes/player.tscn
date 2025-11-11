@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://dgg7m08ovy8jy" path="res://scripts/components/Health.gd" id="6_b26j0"]
 [ext_resource type="Script" uid="uid://byxdjli36d2vl" path="res://scripts/components/CombatController.gd" id="7_n7ghd"]
 [ext_resource type="Script" uid="uid://b1jkpddns8ir" path="res://scripts/components/AnimationController.gd" id="8_dw050"]
-[ext_resource type="Script" uid="uid://dpdi3piygs50k" path="res://scenes/camera.gd" id="9_ur7pv"]
+[ext_resource type="Script" path="res://scenes/camera.gd" id="9_ur7pv"]
 
 [node name="player" type="CharacterBody2D" node_paths=PackedStringArray("move", "combat", "health")]
 y_sort_enabled = true

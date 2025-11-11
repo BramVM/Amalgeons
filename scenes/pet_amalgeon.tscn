@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://b1jkpddns8ir" path="res://scripts/components/AnimationController.gd" id="4_lhh1l"]
 [ext_resource type="Script" uid="uid://byxdjli36d2vl" path="res://scripts/components/CombatController.gd" id="5_ahtir"]
 [ext_resource type="Script" uid="uid://e0ff2focjmhw" path="res://scripts/components/MovementController.gd" id="6_a4wmn"]
-[ext_resource type="Resource" uid="uid://cawntpdlqfib6" path="res://scripts/combat/AttackMoves/heavy_smash.tres" id="6_ahtir"]
+[ext_resource type="Resource" uid="uid://tiicjkul3jeu" path="res://scripts/combat/AttackMoves/quick_jab.tres" id="6_u50xw"]
 [ext_resource type="Script" uid="uid://dgg7m08ovy8jy" path="res://scripts/components/Health.gd" id="7_o1a5y"]
 [ext_resource type="Script" uid="uid://niipwtd1xvfm" path="res://scripts/ai/FollowMasterAI.gd" id="8_lhh1l"]
 
@@ -25,9 +25,9 @@ position = Vector2(0, -5)
 texture = ExtResource("2_jpnuf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -7)
+position = Vector2(0, -2)
 sprite_frames = ExtResource("2_qprdq")
-animation = &"idle_side"
+animation = &"hurt_down"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 offset_left = -7.0
@@ -44,7 +44,7 @@ metadata/_custom_type_script = "uid://b1jkpddns8ir"
 
 [node name="CombatController" type="Node" parent="."]
 script = ExtResource("5_ahtir")
-attack_move = ExtResource("6_ahtir")
+attack_move = ExtResource("6_u50xw")
 metadata/_custom_type_script = "uid://byxdjli36d2vl"
 
 [node name="MovementController" type="Node" parent="."]

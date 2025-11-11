@@ -35,4 +35,5 @@ func _perform_attack(tgt: Character) -> void:
 			var my_health: Health = get_parent().get_node_or_null("Health") as Health
 			if my_health:
 				my_health.hp = clamp(my_health.hp + dealt * attack_move.lifesteal, 0.0, my_health.max_hp)
-	_cooldown = attack_move.cooldown()/get_parent().stats.attack_speed()
+
+	_cooldown = attack_move.attack_speed/get_parent().stats.attack_speed()
