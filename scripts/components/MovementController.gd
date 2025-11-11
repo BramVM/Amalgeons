@@ -10,8 +10,8 @@ signal step_finished()
 var _percent: float = 0.0
 var _from: Vector2 = Vector2.ZERO
 var _to: Vector2 = Vector2.ZERO
-var from_cell: Vector2i
-var to_cell: Vector2i
+@onready var from_cell: Vector2i
+@onready var to_cell: Vector2i
 var _moving: bool = false
 var blocked: bool = false
 var _queued_dir: Vector2 = Vector2.ZERO     # buffered intention (from input/AI)
@@ -63,6 +63,7 @@ func _start_step(body: CharacterBody2D, dir_vec: Vector2) -> void:
 	step_started.emit(dir_vec)
 
 func physics_tick(body: CharacterBody2D, delta: float) -> void:
+	print(from_cell)
 	if blocked: return
 	if not _moving: return
 	_percent = min(1.0, _percent + walk_speed * delta)

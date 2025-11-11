@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dy56cpjv5aqju" path="res://characters/PetAmalgeon.gd" id="1_yf6ms"]
 [ext_resource type="Texture2D" uid="uid://r1vrg2soil6y" path="res://Assets/Player/player_shadow.png" id="2_jpnuf"]
-[ext_resource type="SpriteFrames" uid="uid://b6uirpw08usbl" path="res://amalgeon2_sprite.tres" id="2_qprdq"]
+[ext_resource type="SpriteFrames" uid="uid://c8851it8e2pcu" path="res://amalgeon_sprite.tres" id="3_u50xw"]
 [ext_resource type="Script" uid="uid://b1jkpddns8ir" path="res://scripts/components/AnimationController.gd" id="4_lhh1l"]
 [ext_resource type="Script" uid="uid://byxdjli36d2vl" path="res://scripts/components/CombatController.gd" id="5_ahtir"]
 [ext_resource type="Script" uid="uid://e0ff2focjmhw" path="res://scripts/components/MovementController.gd" id="6_a4wmn"]
@@ -26,7 +26,7 @@ texture = ExtResource("2_jpnuf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)
-sprite_frames = ExtResource("2_qprdq")
+sprite_frames = ExtResource("3_u50xw")
 animation = &"hurt_down"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]

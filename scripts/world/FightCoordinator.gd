@@ -51,20 +51,48 @@ func _initiate_staging(w: WildAmalgeon)->void:
 	for n in [player_node, pet_node, w]:
 		if n:
 			var m: MovementController = n.get_node_or_null("MovementController") as MovementController
-			n.char_state = GameGlobals.CharState.STAGING
+			if n: n.char_state = GameGlobals.CharState.STAGING
 			if m: m.set_blocked(true, n)
-	#player_node.get_node("Camera2D").zoom_over_time(2,0.5)
-	pet_staging_destination=player_node.move.to_cell
-	player_staging_destination=player_node.move.to_cell- (player_node.move.current_dir as Vector2i)
+	
+	if(pet_node):
+		pet_staging_destination=player_node.move.to_cell
+		player_staging_destination=player_node.move.to_cell- (player_node.move.current_dir as Vector2i)
+	else:
+		player_staging_destination=player_node.move.to_cell
 
 func _end_staging(w: WildAmalgeon)->void:
+	# Set facings
+	if pet_node:
+		if player_node.has_method("set_facing_by_vec"):
+			player_node.set_facing_by_vec(pet_node.global_position - player_node.global_position)
+		if pet_node.has_method("set_facing_by_vec"):
+			pet_node.set_facing_by_vec(wild_node.global_position - pet_node.global_position)
+		if wild_node.has_method("set_facing_by_vec"):
+			wild_node.set_facing_by_vec(pet_node.global_position - wild_node.global_position)
+	else:
+		if player_node.has_method("set_facing_by_vec"):
+			player_node.set_facing_by_vec(wild_node.global_position - player_node.global_position)
+		if wild_node.has_method("set_facing_by_vec"):
+			wild_node.set_facing_by_vec(player_node.global_position - wild_node.global_position)
+	
+	# Wire up combat targets (example: player+pet vs wild)
+	if player_node and player_node.combat:
+		player_node.combat.set_target(wild_node)
+	if pet_node and pet_node.combat:
+		pet_node.combat.set_target(wild_node)
+	if wild_node and wild_node.combat:
+		if pet_node:
+			# pick the pet as primary target
+			wild_node.combat.set_target(pet_node)
+		else:
+			wild_node.combat.set_target(player_node)
 	for n in [player_node, pet_node, wild_node]:
 		if n:n.char_state=GameGlobals.CharState.FIGHTING
 	SignalBus.fight_started.emit(player_node, w)
 	_staging = false
 
 func _stage() -> void:
-	if not pet_node: return
+	if not player_node: return
 	
 	#move player and pet to destination
 	#var next_player_step = Pathfinder.next_step_a_star(player_node.move.to_cell,player_staging_destination,Occupancy.is_free,50)
@@ -74,28 +102,14 @@ func _stage() -> void:
 	#pet_node.move.request_dir(pet_node,  pet_node.move.from_cell-next_pet_step)
 	
 	_teleport_to_cell(player_node, player_staging_destination)
-	_teleport_to_cell(pet_node, pet_staging_destination)
-
-
-	# 3) Set facings
-	if player_node.has_method("set_facing_by_vec"):
-		player_node.set_facing_by_vec(pet_node.global_position - player_node.global_position)
-	if pet_node.has_method("set_facing_by_vec"):
-		pet_node.set_facing_by_vec(wild_node.global_position - pet_node.global_position)
-	if wild_node.has_method("set_facing_by_vec"):
-		wild_node.set_facing_by_vec(pet_node.global_position - wild_node.global_position)
+	if pet_node: _teleport_to_cell(pet_node, pet_staging_destination)
 	
-
-	# Wire up combat targets (example: player+pet vs wild)
-	if player_node and player_node.combat:
-		player_node.combat.set_target(wild_node)
-	if pet_node and pet_node.combat:
-		pet_node.combat.set_target(wild_node)
-	if wild_node and wild_node.combat:
-		# pick the player as primary target
-		wild_node.combat.set_target(pet_node)
-	if(Grid.to_cell(player_node.global_position) == player_staging_destination && Grid.to_cell(pet_node.global_position) == pet_staging_destination):
-		_end_staging(wild_node)	
+	if(Grid.to_cell(player_node.global_position) == player_staging_destination):
+		if pet_node:
+			if(Grid.to_cell(pet_node.global_position) == pet_staging_destination):
+				_end_staging(wild_node)
+		else:
+			_end_staging(wild_node)	
 	
 func _teleport_to_cell(node: Node2D, cell: Vector2i) -> void:
 	var current := Grid.to_cell(node.global_position)

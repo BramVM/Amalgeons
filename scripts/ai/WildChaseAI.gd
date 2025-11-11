@@ -25,7 +25,7 @@ func physics_tick(body: CharacterBody2D, movement: MovementController, delta: fl
 	# Work in cells so we’re tile-accurate
 	var my_cell:Vector2i= movement.to_cell
 	var ply_cell:Vector2i= player_movement.to_cell
-
+	print(movement.to_cell)
 	var dist = (my_cell-ply_cell).length()
 	if dist > aggro_range_tiles:
 		chasing = false

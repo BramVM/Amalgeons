@@ -1,7 +1,7 @@
 extends Camera2D
 
 var animation_counter:= 0.0
-var target_zoom:= 0.0
+var target_zoom:= 1.0
 var zoom_per_sec:=Vector2.ZERO
 
 func _ready() -> void:
@@ -9,7 +9,6 @@ func _ready() -> void:
 	SignalBus.fight_ended.connect(_on_fight_end)
 	
 func _on_fight_start(a: Node, b: Node) -> void:
-	print("zoom")
 	_zoom_over_time(2,0.5)
 
 func _on_fight_end() -> void:
