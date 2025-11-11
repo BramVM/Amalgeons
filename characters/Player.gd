@@ -1,18 +1,31 @@
 extends Character
 class_name Player
 
+var interaction_cell: Vector2i
+@onready var movement_controller: MovementController = $MovementController
+
 func _ready() -> void:
 	char_type = GameGlobals.CharType.PLAYER
+	movement_controller.step_finished.connect(_on_step_finished)
+	movement_controller.blocked_by_collision.connect(_on_step_blocked)
 	super._ready()
 	
+func _on_step_finished():
+	interaction_cell = movement_controller.from_cell + (Directions.dir_to_vec(facing_dir) as Vector2i)
+	SignalBus.player_interact_cell_changed.emit(interaction_cell)
+
+func _on_step_blocked(d:Vector2):
+	interaction_cell = movement_controller.from_cell + (d as Vector2i)
+	SignalBus.player_interact_cell_changed.emit(interaction_cell)
+
 func _physics_process(delta: float) -> void:
-	var m := move if move != null else (get_node_or_null("MovementController") as MovementController)
-	if m == null || char_state == GameGlobals.CharState.FIGHTING || char_state == GameGlobals.CharState.STAGING:
+
+	if movement_controller == null || char_state == GameGlobals.CharState.FIGHTING || char_state == GameGlobals.CharState.STAGING:
 		super._physics_process(delta); return
 
 	var dir := _get_dir_from_ui()  # uses ui_left/right/up/down
 	# Always send intention; controller will queue if still stepping
-	m.request_dir(self, dir)
+	movement_controller.request_dir(self, dir)
 
 	super._physics_process(delta)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d0udim7p6lv0r"]
+[gd_scene load_steps=12 format=3 uid="uid://d0udim7p6lv0r"]
 
 [ext_resource type="Script" uid="uid://dy56cpjv5aqju" path="res://characters/PetAmalgeon.gd" id="1_yf6ms"]
 [ext_resource type="Texture2D" uid="uid://r1vrg2soil6y" path="res://Assets/Player/player_shadow.png" id="2_jpnuf"]
@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://tiicjkul3jeu" path="res://scripts/combat/AttackMoves/quick_jab.tres" id="6_u50xw"]
 [ext_resource type="Script" uid="uid://dgg7m08ovy8jy" path="res://scripts/components/Health.gd" id="7_o1a5y"]
 [ext_resource type="Script" uid="uid://niipwtd1xvfm" path="res://scripts/ai/FollowMasterAI.gd" id="8_lhh1l"]
+[ext_resource type="Script" uid="uid://bumxm678lnfi4" path="res://scripts/components/InteractionController.gd" id="10_jw35s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u50xw"]
 
@@ -30,6 +31,7 @@ sprite_frames = ExtResource("3_u50xw")
 animation = &"hurt_down"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
+z_index = 1
 offset_left = -7.0
 offset_top = 4.0
 offset_right = 7.0
@@ -62,3 +64,14 @@ metadata/_custom_type_script = "uid://niipwtd1xvfm"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_u50xw")
+
+[node name="InteractionController" type="Node2D" parent="."]
+z_index = 1
+script = ExtResource("10_jw35s")
+label_text = "E"
+input_key = "interact"
+metadata/_custom_type_script = "uid://bumxm678lnfi4"
+
+[node name="Label" type="Label" parent="InteractionController"]
+offset_right = 40.0
+offset_bottom = 23.0

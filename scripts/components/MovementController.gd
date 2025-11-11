@@ -66,15 +66,15 @@ func _start_step(body: CharacterBody2D, dir_vec: Vector2) -> void:
 	step_started.emit(dir_vec)
 
 func physics_tick(body: CharacterBody2D, delta: float) -> void:
-	print(from_cell)
 	if blocked: return
 	if not _moving: return
 	_percent = min(1.0, _percent + walk_speed * delta)
 	body.position = _from.lerp(_to, _percent)
 	if _percent >= 1.0:
-		# finalize the current step
+		if use_occupancy:
+			Occupancy.move(from_cell, to_cell)
+		from_cell = to_cell
 		step_finished.emit()
-
 		# chain immediately if something is queued — do NOT drop _moving to false
 		if _queued_dir != Vector2.ZERO:
 			var next := _queued_dir
@@ -87,15 +87,3 @@ func physics_tick(body: CharacterBody2D, delta: float) -> void:
 		else:
 			_moving = false
 	
-	if _percent >= 1.0:
-		if use_occupancy:
-			Occupancy.move(from_cell, to_cell)
-		from_cell = to_cell
-		step_finished.emit()
-		# chain immediately if something is queued — do NOT drop _moving to false
-		if _queued_dir != Vector2.ZERO:
-			var next := _queued_dir
-			_queued_dir = Vector2.ZERO
-			_start_step(body, next)   # keeps movement continuous; no idle frame
-		else:
-			_moving = false           # only stop if nothing queued

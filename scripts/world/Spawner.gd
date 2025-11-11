@@ -7,6 +7,7 @@ class_name Spawner
 @export var MonumentScene: PackedScene
 @export var fight_coordinator: NodePath
 @onready var y_sort_node:Node2D = $"../YSort"
+@onready var ui = $"../UI"
 
 var coord := get_node_or_null(fight_coordinator)
 
@@ -23,7 +24,8 @@ func _ready() -> void:
 	coord = get_node_or_null(fight_coordinator)
 	spawn_player_at(PLAYER_SPAWN_LOCATION)
 	coord.set_player(player)
-	spawn_pet_at(PET_SPAWN_LOCATION,player)    
+	spawn_pet_at(PET_SPAWN_LOCATION,player)
+	ui.set_pet(pet)   
 	coord.set_pet(pet)
 	var monument=spawn_monument_at(Vector2i(4, 3))
 	monument.set_player(player)

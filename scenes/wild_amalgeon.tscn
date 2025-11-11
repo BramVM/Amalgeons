@@ -25,6 +25,7 @@ sprite_frames = ExtResource("2_rovud")
 animation = &"walk_side"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
+z_index = 1
 offset_left = -7.0
 offset_top = 4.0
 offset_right = 7.0
