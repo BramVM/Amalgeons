@@ -19,15 +19,29 @@ func set_target_player(p: Player) -> void:
 func set_fight_coordinator(f: FightCoordinator) -> void:
 	coord = f
 
-func physics_tick(body: CharacterBody2D, movement: MovementController, _delta: float) -> void:
+func physics_tick(body: Character, movement: MovementController, _delta: float) -> void:
 	if player == null or movement == null or body.is_queued_for_delete:
 		chasing = false
 		return
-	var player_movement := player.get_node_or_null("MovementController")
+	if body.char_state!=GameGlobals.CharState.IDLE:
+		chasing  = false
+		return	
+	if player.char_state!=GameGlobals.CharState.IDLE:
+		chasing  = false
+		return	
 	
 	# Work in cells so we’re tile-accurate
-	var my_cell:Vector2i= movement.to_cell
-	var ply_cell:Vector2i= player_movement.to_cell
+	var my_cell:Vector2i
+	var ply_cell:Vector2i
+
+	if (body.movement_controller.to_cell!=Vector2i.ZERO):
+		my_cell= body.movement_controller.to_cell
+	else:
+		my_cell= Grid.to_cell(body.position)
+	if (player.movement_controller.to_cell!=Vector2i.ZERO):
+		ply_cell= player.movement_controller.to_cell
+	else:
+		ply_cell= Grid.to_cell(player.position)
 
 	var dist = (my_cell-ply_cell).length()
 	if dist > aggro_range_tiles:
@@ -36,13 +50,10 @@ func physics_tick(body: CharacterBody2D, movement: MovementController, _delta: f
 
 	# Already adjacent? stop stepping into them and optionally start fight
 	if dist == 1:
-		
 		# Make sure we are not still trying to move
 		movement.request_dir(body, Vector2.ZERO)
 		chasing = false
-		if start_fight_when_adjacent and coord and body.char_state != GameGlobals.CharState.FIGHTING and body.char_state != GameGlobals.CharState.STAGING and body.char_state != GameGlobals.CharState.DIEING :
-			print(my_cell)
-			print(ply_cell)
+		if start_fight_when_adjacent and coord and player.char_state != GameGlobals.CharState.FIGHTING and player.char_state != GameGlobals.CharState.STAGING and player.char_state != GameGlobals.CharState.DIEING :
 			coord.request_engagement(body)
 		return
 

@@ -109,12 +109,13 @@ func _despawn(c:Character):
 	if c.char_type==GameGlobals.CharType.WILD :
 		wilds.erase(c)
 	if c.char_type==GameGlobals.CharType.PLAYER :
-		spawn_player_at(PLAYER_SPAWN_LOCATION)
 		if!pet:
-			spawn_pet_at(PET_SPAWN_LOCATION)    
+			spawn_pet_at(PET_SPAWN_LOCATION)  
+		spawn_player_at(PLAYER_SPAWN_LOCATION)  
 		for w in wilds :
-			var chase := w.get_node_or_null("WildChaseAI") as WildChaseAI
-			if chase:
-				chase.set_target_player(player)
+			if(w):
+				var chase := w.get_node_or_null("WildChaseAI") as WildChaseAI
+				if chase:
+					chase.set_target_player(player)
 	c.queue_free()
 	

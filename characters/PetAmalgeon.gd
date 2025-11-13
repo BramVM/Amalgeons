@@ -19,7 +19,7 @@ func _physics_process(delta: float) -> void:
 
 func set_master(p):
 	master = p
-	#if!p.pet: p.set_pet(self)
+	if!p.pet: p.set_pet(self)
 	follow_ai.set_master(p)
 
 func _on_char_died(c:Character) -> void:

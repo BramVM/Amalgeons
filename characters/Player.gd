@@ -25,13 +25,12 @@ func _on_step_blocked(d:Vector2):
 
 func _physics_process(delta: float) -> void:
 
-	if movement_controller == null || char_state == GameGlobals.CharState.FIGHTING || char_state == GameGlobals.CharState.STAGING:
+	if movement_controller == null || char_state != GameGlobals.CharState.IDLE:
 		super._physics_process(delta); return
 
 	var dir := _get_dir_from_ui()  # uses ui_left/right/up/down
 	# Always send intention; controller will queue if still stepping
 	movement_controller.request_dir(self, dir)
-
 	super._physics_process(delta)
 
 static func _get_dir_from_ui()->Vector2:

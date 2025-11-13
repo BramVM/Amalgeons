@@ -51,10 +51,10 @@ func _physics_process(_delta: float) -> void:
 			SignalBus.died.emit(_character)
 
 func _on_damaged(who: Node, _amount: float):
-	if(who==_character): _hurt_animation_counter=HURT_TIME
+	if(who==_character): _hurt_animation_counter = HURT_TIME
 
 func _on_death(who: Node):
-	if(who==_character): _death_animation_counter=DEATH_ANIMATION_TIME
+	if(who==_character): _death_animation_counter = DEATH_ANIMATION_TIME
 
 func _play_4dir(moving: bool, hurt: bool, death:bool, d: int) -> void:
 	var anim_name := ""

@@ -20,13 +20,13 @@ func physics_tick(body: CharacterBody2D, m: MovementController, _delta: float) -
 	
 func set_master(master: Character) -> void:
 	_master = master
-	if _master and _master.movement_controller:
-		_master.movement_controller.step_started.connect(_on_master_step_started)
-		_master.movement_controller.step_finished.connect(_on_master_step_finished)
-		_seed_slot()
+	_master.movement_controller.step_started.connect(_on_master_step_started)
+	_master.movement_controller.step_finished.connect(_on_master_step_finished)
+	_seed_slot()
 
 func _move_to_target()->void:
 	if not _master or not movement: return
+	if _master.char_state!=GameGlobals.CharState.IDLE: return	
 	var body:= get_parent()
 	var me := Grid.to_cell(body.global_position)
 

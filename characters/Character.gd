@@ -10,13 +10,11 @@ var char_state := GameGlobals.CharState.IDLE
 
 var is_queued_for_delete:= false
 var facing_dir: int = Directions.Dir.DOWN
-	
 
 func _ready() -> void:
-	if movement_controller:
-		movement_controller.step_started.connect(set_facing_by_vec)
-		movement_controller.blocked_by_collision.connect(set_facing_by_vec)
-		if char_type == GameGlobals.CharType.WILD: movement_controller.walk_speed = 5
+	movement_controller.step_started.connect(set_facing_by_vec)
+	movement_controller.blocked_by_collision.connect(set_facing_by_vec)
+	if char_type == GameGlobals.CharType.WILD: movement_controller.walk_speed = 5
 	# mark occupancy if you use it:
 	# Occupancy.take(Grid.to_cell(global_position, 16))
 

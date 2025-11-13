@@ -38,7 +38,7 @@ func _set_pet(p:PetAmalgeon):
 func request_engagement(w: WildAmalgeon) -> void:
 	if _busy: return
 	_busy = true
-	if w.char_state != GameGlobals.CharState.STAGING:
+	if w.char_state == GameGlobals.CharState.IDLE:
 		_initiate_staging(w)
 	
 func _initiate_staging(w: WildAmalgeon)->void:
@@ -47,15 +47,23 @@ func _initiate_staging(w: WildAmalgeon)->void:
 	# Freeze movement on all parties
 	for n in [player_node, pet_node, w]:
 		if n:
-			var m: MovementController = n.get_node_or_null("MovementController") as MovementController
 			if n: n.char_state = GameGlobals.CharState.STAGING
-			if m: m.set_blocked(true, n)
-	if(pet_node and !pet_node.char_state==GameGlobals.CharState.DIEING):
-		print("here wierd stuff")
-		pet_staging_destination=player_node.movement_controller.to_cell
-		player_staging_destination=player_node.movement_controller.to_cell- (player_node.movement_controller.current_dir as Vector2i)
+	player_node.movement_controller.set_occupancy_use(false)
+	if pet_node: pet_node.movement_controller.set_occupancy_use(false)
+	var ply_cell: Vector2i
+	if (player_node.movement_controller.to_cell!=Vector2i.ZERO):
+		ply_cell= player_node.movement_controller.to_cell
 	else:
-		player_staging_destination=player_node.movement_controller.to_cell
+		ply_cell= Grid.to_cell(player_node.position)
+	if(pet_node and !pet_node.char_state==GameGlobals.CharState.DIEING):
+		pet_staging_destination=ply_cell
+		player_staging_destination=ply_cell- (player_node.movement_controller.current_dir as Vector2i)
+	else:
+		player_staging_destination=ply_cell
+	
+	print(player_staging_destination)
+	print(pet_staging_destination)
+	print(w.movement_controller.to_cell)
 
 func _end_staging(w: WildAmalgeon)->void:
 	# Set facings
@@ -79,9 +87,11 @@ func _end_staging(w: WildAmalgeon)->void:
 		pet_node.combat.set_target(wild_node)
 	if wild_node and wild_node.combat:
 		if pet_node:
+			print("set pet as target")
 			# pick the pet as primary target
 			wild_node.combat.set_target(pet_node)
 		else:
+			print("set player as target")
 			wild_node.combat.set_target(player_node)
 	for n in [player_node, pet_node, wild_node]:
 		if n:n.char_state=GameGlobals.CharState.FIGHTING
@@ -89,36 +99,24 @@ func _end_staging(w: WildAmalgeon)->void:
 	_staging = false
 
 func _stage() -> void:
-	if not player_node or not pet_node: return
+	if not player_node: return
 	
-	#movement_controller player and pet to destination
-	#var next_player_step = Pathfinder.next_step_a_star(player_node.movement_controller.to_cell,player_staging_destination,Occupancy.is_free,50)
-	#var next_pet_step = Pathfinder.next_step_a_star(pet_node.movement_controller.to_cell,pet_staging_destination,Occupancy.is_free,50)
-	#print(player_node.movement_controller.from_cell-next_player_step)
-	#if next_player_step: player_node.movement_controller.request_dir(player_node, player_node.movement_controller.from_cell-next_player_step)
-	#pet_node.movement_controller.request_dir(pet_node,  pet_node.movement_controller.from_cell-next_pet_step)
+	if !player_node.movement_controller.moving:
+		player_node.movement_controller.request_dir(player_node,player_staging_destination-Grid.to_cell(player_node.global_position))
+	if pet_node and !pet_node.movement_controller.moving:
+		pet_node.movement_controller.request_dir(pet_node,pet_staging_destination-Grid.to_cell(pet_node.global_position))
 
-	#player_node.movement_controller.use_occupancy=false
-	#pet_node.movement_controller.use_occupancy=false
-	
-	#var next = Pathfinder.next_step_a_star(player_node.movement_controller.to_cell,player_staging_destination,is_true,50)
-	#if next: player_node.movement_controller.request_dir(player_node,next)
-	#next = Pathfinder.next_step_a_star(pet_node.movement_controller.to_cell,pet_staging_destination,is_true,50)
-	#if next: pet_node.movement_controller.request_dir(pet_node,next)
-	_teleport_to_cell(player_node, player_staging_destination)
-	if pet_node: _teleport_to_cell(pet_node, pet_staging_destination)
+	#if pet_node: 
+	#	_teleport_to_cell(pet_node, pet_staging_destination)
+
 	
 	
-	if(Grid.to_cell(player_node.global_position) == player_staging_destination):
+	if(!player_node.movement_controller.moving and Grid.to_cell(player_node.global_position) == player_staging_destination):
 		if pet_node:
-			if(Grid.to_cell(pet_node.global_position) == pet_staging_destination):
+			if(!pet_node.movement_controller.moving and Grid.to_cell(pet_node.global_position) == pet_staging_destination):
+				pet_node.movement_controller.set_occupancy_use(true)
+				player_node.movement_controller.set_occupancy_use(true)
 				_end_staging(wild_node)
 		else:
-			_end_staging(wild_node)	
-	
-func _teleport_to_cell(node: Node2D, cell: Vector2i) -> void:
-	var current := Grid.to_cell(node.global_position)
-	if Occupancy.is_free(current) == false:
-		Occupancy.release(current)
-	node.global_position = Grid.to_world(cell)
-	Occupancy.take(cell)
+			player_node.movement_controller.use_occupancy=true
+			_end_staging(wild_node)
