@@ -1,14 +1,19 @@
 extends Character
 class_name Player
 
+var pet : PetAmalgeon
 var interaction_cell: Vector2i
-@onready var movement_controller: MovementController = $MovementController
 
 func _ready() -> void:
+	SignalBus.pet_spawned.connect(set_pet)
 	char_type = GameGlobals.CharType.PLAYER
 	movement_controller.step_finished.connect(_on_step_finished)
 	movement_controller.blocked_by_collision.connect(_on_step_blocked)
 	super._ready()
+
+func set_pet(p:PetAmalgeon) -> void:
+	pet=p
+	if !p.master:p.set_master(self)
 	
 func _on_step_finished():
 	interaction_cell = movement_controller.from_cell + (Directions.dir_to_vec(facing_dir) as Vector2i)

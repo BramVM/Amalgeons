@@ -10,6 +10,8 @@ var heal_speed = 0.2
 func _ready() -> void:
 	var cell = Grid.to_cell(position)
 	Occupancy.take(cell)
+	SignalBus.player_spawned.connect(_set_player)
+	SignalBus.pet_spawned.connect(_set_pet)
 
 func _process(delta: float) -> void:
 	if (player and _check_near(player)):
@@ -29,8 +31,8 @@ func _check_near(p:Player) -> bool:
 	return (distance==1)
 	
 
-func set_player(p:Player) -> void:
+func _set_player(p:Player) -> void:
 	player = p
 	
-func set_pet(p:PetAmalgeon) -> void:
+func _set_pet(p:PetAmalgeon) -> void:
 	pet = p

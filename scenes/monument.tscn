@@ -34,6 +34,6 @@ animations = [{
 script = ExtResource("1_rpsm2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -11)
+position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_1y0xo")
 animation = &"active"

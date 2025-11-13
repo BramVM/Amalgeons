@@ -12,17 +12,17 @@ var movement:MovementController
 func _ready() -> void:
 	movement=get_node_or_null(movement_path)
 
-func physics_tick(body: CharacterBody2D, movement: MovementController, delta: float) -> void:
-	if (_master.position-body.position).length()>GameGlobals.TILE_SIZE*2:
+func physics_tick(body: CharacterBody2D, m: MovementController, _delta: float) -> void:
+	if _master and (_master.position-body.position).length()>GameGlobals.TILE_SIZE*2:
 		_move_to_target()
-	if movement and movement.is_moving():
+	if m and m.is_moving():
 		_move_to_target()
 	
 func set_master(master: Character) -> void:
 	_master = master
-	if _master and _master.move:
-		_master.move.step_started.connect(_on_master_step_started)
-		_master.move.step_finished.connect(_on_master_step_finished)
+	if _master and _master.movement_controller:
+		_master.movement_controller.step_started.connect(_on_master_step_started)
+		_master.movement_controller.step_finished.connect(_on_master_step_finished)
 		_seed_slot()
 
 func _move_to_target()->void:

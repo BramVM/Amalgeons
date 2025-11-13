@@ -9,8 +9,8 @@ func _ready() -> void:
 	super._ready()
 
 func _physics_process(delta: float) -> void:
-	if chase_ai and move:
-		chase_ai.physics_tick(self, move, delta)
-	if wander_ai and move and !(chase_ai and chase_ai.chasing) and !(char_state==GameGlobals.CharState.FIGHTING||char_state==GameGlobals.CharState.STAGING):
-		wander_ai.physics_tick(self, move, delta)
+	if chase_ai and movement_controller:
+		chase_ai.physics_tick(self, movement_controller, delta)
+	if wander_ai and movement_controller and !(chase_ai and chase_ai.chasing) and !(char_state==GameGlobals.CharState.FIGHTING||char_state==GameGlobals.CharState.STAGING):
+		wander_ai.physics_tick(self, movement_controller, delta)
 	super._physics_process(delta)

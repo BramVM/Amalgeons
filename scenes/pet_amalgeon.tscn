@@ -22,13 +22,12 @@ health = NodePath("Health")
 
 [node name="PlayerShadow" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(0, -5)
 texture = ExtResource("2_jpnuf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -2)
 sprite_frames = ExtResource("3_u50xw")
 animation = &"hurt_down"
+offset = Vector2(0, -2)
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 z_index = 1

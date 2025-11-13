@@ -20,9 +20,9 @@ combat = NodePath("CombatController")
 health = NodePath("Health")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -2)
 sprite_frames = ExtResource("2_rovud")
-animation = &"walk_side"
+animation = &"idle_down"
+offset = Vector2(0, -2)
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 z_index = 1

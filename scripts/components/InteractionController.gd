@@ -22,10 +22,9 @@ func _ready() -> void:
 	_label.visible = false
 	SignalBus.player_interact_cell_changed.connect(_on_player_interact_cell_changed)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if _interactable: 
-		if Input.is_action_just_pressed(input_key): 
-			print("interact")
+		if Input.is_action_just_pressed(input_key):
 			interact.emit()
 
 func _on_player_interact_cell_changed(c:Vector2i):

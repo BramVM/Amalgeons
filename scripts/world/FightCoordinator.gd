@@ -1,9 +1,7 @@
 extends Node
 class_name FightCoordinator
 
-@export var player: NodePath
-@export var pet: NodePath
-@export var wild: NodePath
+
 var player_node: Player
 var pet_node: PetAmalgeon
 var wild_node:WildAmalgeon
@@ -14,12 +12,11 @@ var _busy := false
 var _staging:= false
 
 func _ready() -> void:
-	if !player_node: player_node = get_node_or_null(player)
-	if !player_node: pet_node = get_node_or_null(pet)
-	if !player_node: wild_node = get_node_or_null(wild)
+	SignalBus.player_spawned.connect(_set_player)
+	SignalBus.pet_spawned.connect(_set_pet)
 	SignalBus.fight_ended.connect(_on_fight_ended)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if(_staging): _stage()
 	
 func _on_fight_ended() -> void:
@@ -32,10 +29,10 @@ func _on_fight_ended() -> void:
 		#var c := n as Character
 		#if c: c.char_state = Character.CharState.IDLE
 
-func set_player(p:Player):
+func _set_player(p:Player):
 	player_node=p
 
-func set_pet(p:PetAmalgeon):
+func _set_pet(p:PetAmalgeon):
 	pet_node=p
 
 func request_engagement(w: WildAmalgeon) -> void:
@@ -53,12 +50,12 @@ func _initiate_staging(w: WildAmalgeon)->void:
 			var m: MovementController = n.get_node_or_null("MovementController") as MovementController
 			if n: n.char_state = GameGlobals.CharState.STAGING
 			if m: m.set_blocked(true, n)
-	
-	if(pet_node):
-		pet_staging_destination=player_node.move.to_cell
-		player_staging_destination=player_node.move.to_cell- (player_node.move.current_dir as Vector2i)
+	if(pet_node and !pet_node.char_state==GameGlobals.CharState.DIEING):
+		print("here wierd stuff")
+		pet_staging_destination=player_node.movement_controller.to_cell
+		player_staging_destination=player_node.movement_controller.to_cell- (player_node.movement_controller.current_dir as Vector2i)
 	else:
-		player_staging_destination=player_node.move.to_cell
+		player_staging_destination=player_node.movement_controller.to_cell
 
 func _end_staging(w: WildAmalgeon)->void:
 	# Set facings
@@ -92,17 +89,25 @@ func _end_staging(w: WildAmalgeon)->void:
 	_staging = false
 
 func _stage() -> void:
-	if not player_node: return
+	if not player_node or not pet_node: return
 	
-	#move player and pet to destination
-	#var next_player_step = Pathfinder.next_step_a_star(player_node.move.to_cell,player_staging_destination,Occupancy.is_free,50)
-	#var next_pet_step = Pathfinder.next_step_a_star(pet_node.move.to_cell,pet_staging_destination,Occupancy.is_free,50)
-	#print(player_node.move.from_cell-next_player_step)
-	#if next_player_step: player_node.move.request_dir(player_node, player_node.move.from_cell-next_player_step)
-	#pet_node.move.request_dir(pet_node,  pet_node.move.from_cell-next_pet_step)
+	#movement_controller player and pet to destination
+	#var next_player_step = Pathfinder.next_step_a_star(player_node.movement_controller.to_cell,player_staging_destination,Occupancy.is_free,50)
+	#var next_pet_step = Pathfinder.next_step_a_star(pet_node.movement_controller.to_cell,pet_staging_destination,Occupancy.is_free,50)
+	#print(player_node.movement_controller.from_cell-next_player_step)
+	#if next_player_step: player_node.movement_controller.request_dir(player_node, player_node.movement_controller.from_cell-next_player_step)
+	#pet_node.movement_controller.request_dir(pet_node,  pet_node.movement_controller.from_cell-next_pet_step)
+
+	#player_node.movement_controller.use_occupancy=false
+	#pet_node.movement_controller.use_occupancy=false
 	
+	#var next = Pathfinder.next_step_a_star(player_node.movement_controller.to_cell,player_staging_destination,is_true,50)
+	#if next: player_node.movement_controller.request_dir(player_node,next)
+	#next = Pathfinder.next_step_a_star(pet_node.movement_controller.to_cell,pet_staging_destination,is_true,50)
+	#if next: pet_node.movement_controller.request_dir(pet_node,next)
 	_teleport_to_cell(player_node, player_staging_destination)
 	if pet_node: _teleport_to_cell(pet_node, pet_staging_destination)
+	
 	
 	if(Grid.to_cell(player_node.global_position) == player_staging_destination):
 		if pet_node:

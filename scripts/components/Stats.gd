@@ -32,19 +32,19 @@ const STAT_GAIN_TIERS := [
 @export var exp := 0.0
 
 func attack_power() ->float:
-	return 1+_effective_points(damage, MAX_POINTS_PER_STAT, DEMINISHING_RETURN_TIERS)*0.1
+	return 1+get_effective_stat_points(damage)*0.1
 	
 func attack_speed() ->float:
-	return 1+_effective_points(speed, MAX_POINTS_PER_STAT, DEMINISHING_RETURN_TIERS)*0.1
+	return 1+get_effective_stat_points(speed)*0.1
 
 func max_hit_points()->float:
-	return 100*(1+_effective_points(hit_points, MAX_POINTS_PER_STAT, DEMINISHING_RETURN_TIERS)*0.1)
+	return 100*(1+get_effective_stat_points(hit_points)*0.1)
 	
 func armor()->int:
-	return roundi(_effective_points(hit_points, MAX_POINTS_PER_STAT, DEMINISHING_RETURN_TIERS)/ARMOR_MOD)
+	return roundi(get_effective_stat_points(hit_points)/ARMOR_MOD)
 
 func unspent_stat_points()->int:
-	var e = _effective_points(level, MAX_LEVEL, STAT_GAIN_TIERS) as int
+	var e = _effective_value(level, MAX_LEVEL, STAT_GAIN_TIERS) as int
 	return e-damage-speed-hit_points
 
 func add_exp_by_enemy_level(el):
@@ -53,7 +53,10 @@ func add_exp_by_enemy_level(el):
 		level= min(level+1,MAX_LEVEL)
 		exp=0
 
-static func _effective_points(p: int, cap: int, tiers:Array) -> float:
+func get_effective_stat_points(s:int):
+	return _effective_value(s, MAX_POINTS_PER_STAT, DEMINISHING_RETURN_TIERS)
+
+static func _effective_value(p: int, cap: int, tiers:Array) -> float:
 	# Clamp to max and apply tiered weights
 	var pts := clampi(p, 0, cap)
 	var remaining := pts

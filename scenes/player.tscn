@@ -27,9 +27,10 @@ offset = Vector2(0, -2)
 shape = ExtResource("4_hqtel")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -2)
 sprite_frames = ExtResource("4_sweqy")
-animation = &"idle_down"
+animation = &"idle_side"
+frame_progress = 0.40611327
+offset = Vector2(0, -8)
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 z_index = 1

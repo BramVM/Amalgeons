@@ -8,31 +8,30 @@ class_name Spawner
 @export var fight_coordinator: NodePath
 @onready var y_sort_node:Node2D = $"../YSort"
 @onready var ui = $"../UI"
+@onready var coord := $"../FightCoordinator"
 
-var coord := get_node_or_null(fight_coordinator)
 
 var player: Player
 var pet: PetAmalgeon
 var wilds: Array
-const NUMBER_OF_SPAWNS:= 1
+const NUMBER_OF_SPAWNS:= 4
 const SPAWN_DISTANCE:= 10
 const DESPAWN_DISTANCE:= 20
-const PLAYER_SPAWN_LOCATION:= Vector2i(1, 1)
-const PET_SPAWN_LOCATION:= Vector2i(1, 0)
+const PLAYER_SPAWN_LOCATION:= Vector2i(3, 4)
+const PET_SPAWN_LOCATION:= Vector2i(3, 2)
+
+func start():
+	spawn_pet_at(PET_SPAWN_LOCATION)
+	spawn_player_at(PLAYER_SPAWN_LOCATION)
+	spawn_monument_at(Vector2i(4, 3))
 
 func _ready() -> void:
-	coord = get_node_or_null(fight_coordinator)
-	spawn_player_at(PLAYER_SPAWN_LOCATION)
-	coord.set_player(player)
-	spawn_pet_at(PET_SPAWN_LOCATION,player)
-	ui.set_pet(pet)   
-	coord.set_pet(pet)
-	var monument=spawn_monument_at(Vector2i(4, 3))
-	monument.set_player(player)
-	monument.set_pet(pet)
 	SignalBus.died.connect(_despawn)
 	
-func _process(delta: float) -> void:
+	
+func _process(_delta: float) -> void:
+	if !player:
+		return
 	#spawn in when not enough
 	if wilds.size() < NUMBER_OF_SPAWNS:
 		var spawn_location=Vector2(0,SPAWN_DISTANCE*GameGlobals.TILE_SIZE)
@@ -40,13 +39,11 @@ func _process(delta: float) -> void:
 		spawn_location = spawn_location.rotated(random_radians)+player.global_position
 		spawn_location = Grid.to_cell(spawn_location)
 		wilds.append(spawn_wild_at(spawn_location))
-	if player:
 		for w in wilds :
 			if(w):
 				var dist = (Grid.to_cell(player.global_position) - Grid.to_cell(w.global_position)).length()
 				if dist>DESPAWN_DISTANCE:
 					_despawn(w)
-		pass
 
 func _cell_to_world(cell: Vector2i) -> Vector2:
 	return Vector2(cell.x * GameGlobals.TILE_SIZE, cell.y * GameGlobals.TILE_SIZE)
@@ -66,6 +63,7 @@ func spawn_player_at(cell: Vector2i) -> Player:
 	_place_on_grid(inst, cell)
 	_take(cell)
 	player = inst
+	SignalBus.player_spawned.emit(inst)
 	return inst
 
 func spawn_monument_at(cell: Vector2i) -> Monument:
@@ -75,19 +73,12 @@ func spawn_monument_at(cell: Vector2i) -> Monument:
 	_take(cell)
 	return inst
 
-func spawn_pet_at(cell: Vector2i, master: Node = null) -> PetAmalgeon:
+func spawn_pet_at(cell: Vector2i) -> PetAmalgeon:
 	var inst := PetAmalgeonScene.instantiate() as PetAmalgeon
 	y_sort_node.add_child(inst)
 	_place_on_grid(inst, cell)
+	SignalBus.pet_spawned.emit(inst)
 	_take(cell)
-
-	# Wire follow AI
-	var follow := inst.get_node_or_null("FollowMasterAI") as FollowMasterAI
-	var m := master if master != null else player
-	if follow and m:
-		follow.set_master(m)  # uses the helper from earlier; otherwise set follow.master = inst.get_path_to(m)
-
-	pet = inst
 	return inst
 
 func spawn_wild_at(cell: Vector2i) -> WildAmalgeon:
@@ -119,10 +110,8 @@ func _despawn(c:Character):
 		wilds.erase(c)
 	if c.char_type==GameGlobals.CharType.PLAYER :
 		spawn_player_at(PLAYER_SPAWN_LOCATION)
-		coord.set_player(player)
 		if!pet:
-			spawn_pet_at(PET_SPAWN_LOCATION,player)    
-			coord.set_pet(pet)
+			spawn_pet_at(PET_SPAWN_LOCATION)    
 		for w in wilds :
 			var chase := w.get_node_or_null("WildChaseAI") as WildChaseAI
 			if chase:
