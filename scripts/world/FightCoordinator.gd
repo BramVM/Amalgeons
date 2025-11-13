@@ -102,9 +102,9 @@ func _stage() -> void:
 	if not player_node: return
 	
 	if !player_node.movement_controller.moving:
-		player_node.movement_controller.request_dir(player_node,player_staging_destination-Grid.to_cell(player_node.global_position))
+		player_node.movement_controller.request_dir(player_staging_destination-Grid.to_cell(player_node.global_position))
 	if pet_node and !pet_node.movement_controller.moving:
-		pet_node.movement_controller.request_dir(pet_node,pet_staging_destination-Grid.to_cell(pet_node.global_position))
+		pet_node.movement_controller.request_dir(pet_staging_destination-Grid.to_cell(pet_node.global_position))
 
 	#if pet_node: 
 	#	_teleport_to_cell(pet_node, pet_staging_destination)

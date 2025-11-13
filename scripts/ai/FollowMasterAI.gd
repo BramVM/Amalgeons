@@ -32,13 +32,13 @@ func _move_to_target()->void:
 
 	# Stop if we're already in the desired slot
 	if me == _slot_cell:
-		movement.request_dir(body, Vector2.ZERO)
+		movement.request_dir(Vector2.ZERO)
 		return
 
 	var next = Pathfinder.next_step_a_star(me,_slot_cell,Occupancy.is_free,50)
 	if next != null:
 		var delta = next - me
-		movement.request_dir(body,delta)
+		movement.request_dir(delta)
 	
 func _on_master_step_started(dir: Vector2) -> void:
 	if dir != Vector2.ZERO:

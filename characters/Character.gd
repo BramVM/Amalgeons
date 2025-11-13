@@ -24,5 +24,5 @@ func set_facing_by_vec(v: Vector2) -> void:
 	facing_dir = Directions.vec_to_dir(v)
 
 func _physics_process(delta: float) -> void:
-	if movement_controller: movement_controller.physics_tick(self, delta)
+	if movement_controller: movement_controller.physics_tick(delta)
 	if combat: combat.physics_tick(delta)

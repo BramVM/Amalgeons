@@ -11,4 +11,4 @@ func physics_tick(body: CharacterBody2D, movement: MovementController, delta: fl
 	_timer = interval
 	var dirs = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN, Vector2.ZERO]
 	var d: Vector2 = dirs[randi() % dirs.size()]
-	movement.request_dir(body, d)
+	movement.request_dir(d)

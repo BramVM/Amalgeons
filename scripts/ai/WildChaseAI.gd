@@ -51,7 +51,7 @@ func physics_tick(body: Character, movement: MovementController, _delta: float) 
 	# Already adjacent? stop stepping into them and optionally start fight
 	if dist == 1:
 		# Make sure we are not still trying to move
-		movement.request_dir(body, Vector2.ZERO)
+		movement.request_dir(Vector2.ZERO)
 		chasing = false
 		if start_fight_when_adjacent and coord and player.char_state != GameGlobals.CharState.FIGHTING and player.char_state != GameGlobals.CharState.STAGING and player.char_state != GameGlobals.CharState.DIEING :
 			coord.request_engagement(body)
@@ -60,4 +60,4 @@ func physics_tick(body: Character, movement: MovementController, _delta: float) 
 	var next = Pathfinder.next_step_a_star(my_cell,ply_cell,Occupancy.is_free,50)
 	if next != null:
 		var deltadir = next - my_cell
-		movement.request_dir(body,deltadir)
+		movement.request_dir(deltadir)

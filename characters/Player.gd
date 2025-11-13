@@ -30,7 +30,7 @@ func _physics_process(delta: float) -> void:
 
 	var dir := _get_dir_from_ui()  # uses ui_left/right/up/down
 	# Always send intention; controller will queue if still stepping
-	movement_controller.request_dir(self, dir)
+	movement_controller.request_dir(dir)
 	super._physics_process(delta)
 
 static func _get_dir_from_ui()->Vector2:
