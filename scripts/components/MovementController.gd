@@ -14,7 +14,6 @@ var _to: Vector2 = Vector2.ZERO
 @onready var from_cell: Vector2i
 @onready var to_cell: Vector2i
 var moving: bool = false
-var blocked: bool = false
 var _queued_dir: Vector2 = Vector2.ZERO    # buffered intention (from input/AI)
 var current_dir: Vector2 = Vector2.ZERO    # direction of the active step
 @onready var _body= get_parent()
@@ -54,7 +53,6 @@ func _start_step(dir_vec: Vector2) -> void:
 	step_started.emit(dir_vec)
 
 func physics_tick(delta: float) -> void:
-	if blocked: return
 	if not moving: return
 	_percent = min(1.0, _percent + walk_speed * delta)
 	_body.position = _from.lerp(_to, _percent)

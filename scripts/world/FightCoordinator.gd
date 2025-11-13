@@ -22,8 +22,6 @@ func _process(_delta: float) -> void:
 func _on_fight_ended() -> void:
 	for n in [player_node, pet_node, wild_node]:
 		if n:
-			var m: MovementController = n.get_node_or_null("MovementController") as MovementController
-			if m: m.set_blocked(false, n)
 			n.char_state=GameGlobals.CharState.IDLE
 			_busy=false
 		#var c := n as Character
