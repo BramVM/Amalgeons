@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=14 format=3 uid="uid://77b7hqkqcicl"]
 
-[ext_resource type="Texture2D" uid="uid://yiwg35tnu0mr" path="res://Assets/Amageons/amalgeon_3.png" id="1_ym23a"]
+[ext_resource type="Texture2D" uid="uid://cyywt1568weu2" path="res://Assets/Amageons/amalgeon_3.png" id="1_ym23a"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ududy"]
 atlas = ExtResource("1_ym23a")
@@ -52,6 +52,14 @@ region = Rect2(32, 32, 16, 32)
 
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ududy")
+}],
+"loop": true,
+"name": &"die_down",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ududy")

@@ -2,6 +2,7 @@ extends Node
 signal player_spawned(player:Player)
 signal pet_spawned(pet:PetAmalgeon)
 signal damaged(who: Node, amount: float)
+signal attack(who: Character)
 signal start_dieing(who: Character)
 signal died(who: Character)
 signal fight_started(a: Node, b: Node)

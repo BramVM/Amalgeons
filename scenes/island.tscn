@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://dtyoh3fgc2h7t"]
+[gd_scene load_steps=15 format=4 uid="uid://dtyoh3fgc2h7t"]
 
 [ext_resource type="Script" uid="uid://bg1nhoep4ayhv" path="res://scripts/world/Spawner.gd" id="1_pqcow"]
 [ext_resource type="PackedScene" uid="uid://dg3p0m3brfi8j" path="res://scenes/player.tscn" id="2_ftju0"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c6t34sym53op8" path="res://Assets/Tilesets/grass1_tileset.png" id="7_ftju0"]
 [ext_resource type="FontFile" uid="uid://bh4se3f70maa2" path="res://Assets/fs-pixel-sans-unicode-regular.ttf" id="8_jxvd6"]
 [ext_resource type="Script" uid="uid://4jemewlo3of3" path="res://scenes/ui.gd" id="8_migvp"]
+[ext_resource type="Script" uid="uid://b3bw8i4vakj0x" path="res://scenes/pet_audio.gd" id="8_qtqbj"]
 [ext_resource type="FontFile" uid="uid://1ftbp26iuowj" path="res://Assets/editundo.ttf" id="9_migvp"]
 [ext_resource type="Script" uid="uid://ccnbhwm1nuc8d" path="res://scenes/intro.gd" id="10_perh5"]
 
@@ -62,6 +63,9 @@ fight_coordinator = NodePath("../FightCoordinator")
 [node name="YSort" type="Node2D" parent="."]
 z_as_relative = false
 y_sort_enabled = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+script = ExtResource("8_qtqbj")
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("8_migvp")

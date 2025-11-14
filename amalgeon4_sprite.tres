@@ -57,6 +57,14 @@ animations = [{
 "texture": SubResource("AtlasTexture_ym23a")
 }],
 "loop": true,
+"name": &"die_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ym23a")
+}],
+"loop": true,
 "name": &"hurt_down",
 "speed": 5.0
 }, {

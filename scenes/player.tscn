@@ -10,10 +10,9 @@
 [ext_resource type="Script" uid="uid://b1jkpddns8ir" path="res://scripts/components/AnimationController.gd" id="8_dw050"]
 [ext_resource type="Script" uid="uid://dpdi3piygs50k" path="res://scenes/camera.gd" id="9_ur7pv"]
 
-[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("move", "combat", "health")]
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("combat", "health")]
 y_sort_enabled = true
 script = ExtResource("1_1jxqw")
-move = NodePath("MovementController")
 combat = NodePath("CombatController")
 health = NodePath("Health")
 
@@ -28,9 +27,8 @@ shape = ExtResource("4_hqtel")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("4_sweqy")
-animation = &"idle_side"
-frame_progress = 0.40611327
-offset = Vector2(0, -8)
+animation = &"walk_down"
+offset = Vector2(0, -9)
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 z_index = 1

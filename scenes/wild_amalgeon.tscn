@@ -10,19 +10,18 @@
 [ext_resource type="Script" uid="uid://dgg7m08ovy8jy" path="res://scripts/components/Health.gd" id="7_mfqki"]
 [ext_resource type="Script" uid="uid://b1jkpddns8ir" path="res://scripts/components/AnimationController.gd" id="8_jsnea"]
 
-[node name="WildAmalgeon" type="CharacterBody2D" node_paths=PackedStringArray("wander_ai", "chase_ai", "move", "combat", "health")]
+[node name="WildAmalgeon" type="CharacterBody2D" node_paths=PackedStringArray("wander_ai", "chase_ai", "combat", "health")]
 y_sort_enabled = true
 script = ExtResource("1_bvcb5")
 wander_ai = NodePath("WanderAI")
 chase_ai = NodePath("WildChaseAI")
-move = NodePath("MovementController")
 combat = NodePath("CombatController")
 health = NodePath("Health")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_rovud")
-animation = &"idle_down"
-offset = Vector2(0, -2)
+animation = &"die_down"
+offset = Vector2(0, -9)
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 z_index = 1

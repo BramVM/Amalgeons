@@ -24,6 +24,7 @@ func physics_tick(delta: float) -> void:
 	_perform_attack(target_node)
 
 func _perform_attack(tgt: Character) -> void:
+	SignalBus.attack.emit(get_parent())
 	var dmg = attack_move.damage*get_parent().stats.attack_power()
 	var th: Health = tgt.get_node_or_null("Health") as Health
 	if th:

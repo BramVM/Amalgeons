@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dx7erup7wmoyx"
-path="res://.godot/imported/amalgeon_3.png-52dcdff253a1c0fd00d97c261277af90.ctex"
+uid="uid://40la5tff5s88"
+path="res://.godot/imported/amangeon_1_death.png-16665f79c76bc9169b0df271795b22a6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/amalgeon_3.png"
-dest_files=["res://.godot/imported/amalgeon_3.png-52dcdff253a1c0fd00d97c261277af90.ctex"]
+source_file="res://Assets/Amageons/amangeon_1_death.png"
+dest_files=["res://.godot/imported/amangeon_1_death.png-16665f79c76bc9169b0df271795b22a6.ctex"]
 
 [params]
 

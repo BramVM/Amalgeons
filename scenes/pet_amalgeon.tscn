@@ -13,10 +13,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u50xw"]
 
-[node name="PetAmalgeon" type="CharacterBody2D" node_paths=PackedStringArray("follow_ai", "move", "combat", "health")]
+[node name="PetAmalgeon" type="CharacterBody2D" node_paths=PackedStringArray("follow_ai", "combat", "health")]
 script = ExtResource("1_yf6ms")
 follow_ai = NodePath("FollowMasterAI")
-move = NodePath("MovementController")
 combat = NodePath("CombatController")
 health = NodePath("Health")
 
@@ -27,7 +26,7 @@ texture = ExtResource("2_jpnuf")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("3_u50xw")
 animation = &"hurt_down"
-offset = Vector2(0, -2)
+offset = Vector2(0, -9)
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 z_index = 1

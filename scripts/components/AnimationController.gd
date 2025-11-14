@@ -19,15 +19,18 @@ var _sprite: AnimatedSprite2D
 var _character: Character
 var _move: MovementController
 var _hurt_animation_counter:= 0.0
+var _attack_animation_counter:= 0.0
 var _death_animation_counter:= 0.0
 
-const HURT_TIME=0.1
+const HURT_TIME=0.05
+const ATTACK_ANIMATION_TIME=0.1
 const DEATH_ANIMATION_TIME=0.8
 
 func _ready() -> void:
 	_character = get_parent() as Character
 	_sprite = get_node_or_null(sprite_path) as AnimatedSprite2D
 	SignalBus.damaged.connect(_on_damaged)
+	SignalBus.attack.connect(_on_attack)
 	SignalBus.start_dieing.connect(_on_death)
 	if _character:
 		_move = _character.movement_controller if _character.movement_controller != null else (_character.get_node_or_null("MovementController") as MovementController)
@@ -42,8 +45,12 @@ func _physics_process(_delta: float) -> void:
 	_sprite.position = Vector2.ZERO
 	
 	if _hurt_animation_counter>0:
-		_sprite.position =- Directions.dir_to_vec(_character.facing_dir)
+		#_sprite.position =- Directions.dir_to_vec(_character.facing_dir)
 		_hurt_animation_counter-=_delta
+	
+	if _attack_animation_counter>0:
+		_sprite.position =+ Directions.dir_to_vec(_character.facing_dir)
+		_attack_animation_counter-=_delta
 	
 	if _death_animation_counter>0:
 		_death_animation_counter-=_delta
@@ -52,6 +59,9 @@ func _physics_process(_delta: float) -> void:
 
 func _on_damaged(who: Node, _amount: float):
 	if(who==_character): _hurt_animation_counter = HURT_TIME
+
+func _on_attack(who: Node):
+	if(who==_character): _attack_animation_counter = ATTACK_ANIMATION_TIME
 
 func _on_death(who: Node):
 	if(who==_character): _death_animation_counter = DEATH_ANIMATION_TIME
@@ -72,7 +82,6 @@ func _play_4dir(moving: bool, hurt: bool, death:bool, d: int) -> void:
 			Directions.Dir.LEFT: anim_name = die_anim_side
 			Directions.Dir.RIGHT: anim_name = die_anim_side
 			_ : anim_name = die_anim_down
-		anim_name = die_anim_down
 	elif hurt:
 		match d:
 			Directions.Dir.UP: anim_name = hurt_anim_up
